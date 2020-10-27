@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/homeFragment"
+    tools:ignore="UnusedNavigation">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="home.service.appmanage.online.work.fragments.HomeFragment"
+        android:label="@string/Home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_typeDetailsFragment"
+            app:destination="@id/typeDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ratesFragment"
+        android:name="home.service.appmanage.online.work.fragments.RatesFragment"
+        android:label="@string/rates"
+        tools:layout="@layout/fragment_rates" />
+    <fragment
+        android:id="@+id/bookingFragment"
+        android:name="home.service.appmanage.online.work.fragments.BookingFragment"
+        android:label="@string/bookings"
+        tools:layout="@layout/fragment_booking" />
+    <fragment
+        android:id="@+id/typeDetailsFragment"
+        android:name="home.service.appmanage.online.work.fragments.TypeDetailsFragment"
+        tools:layout="@layout/fragment_type_details">
+        <argument
+            android:name="type"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_typeDetailsFragment_to_bookWorkerFragment"
+            app:destination="@id/bookWorkerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookWorkerFragment"
+        android:name="home.service.appmanage.online.work.fragments.BookWorkerFragment"
+        android:label="@string/book_now"
+        tools:layout="@layout/fragment_book_worker">
+        <argument
+            android:name="typed"
+            app:argType="home.service.appmanage.online.work.models.TypeDetails" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
+    </fragment>
+</navigation>
