@@ -111,43 +111,43 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
                 object : ClickListener {
                     override fun onClick(view: View?, position: Int) {
                         when (position) {
-                            0 -> {
+                         /*   0 -> {
                                 navigateFragmentbyType(
                                     R.id.typeDetailsFragment,
                                     getString(R.string.plumber)
                                 )
-                            }
-                            1 -> {
+                            }*/
+                            0 -> {
                                 navigateFragmentbyType(
                                     R.id.typeDetailsFragment,
                                     getString(R.string.electrician)
                                 )
                             }
-                            2 -> {
+                            1 -> {
                                 navigateFragmentbyType(
                                     R.id.typeDetailsFragment,
                                     getString(R.string.ac_service)
                                 )
                             }
-                            3 -> {
+                            2 -> {
                                 navigateFragmentbyType(
                                     R.id.typeDetailsFragment,
                                     getString(R.string.carpenter)
                                 )
                             }
-                            4 -> {
+                       /*     4 -> {
                                 navigateFragmentbyType(
                                     R.id.typeDetailsFragment,
                                     getString(R.string.painter)
                                 )
-                            }
-                            5 -> {
+                            }*/
+                            3 -> {
                                 navigateFragmentbyType(
                                     R.id.typeDetailsFragment,
                                     getString(R.string.barber)
                                 )
                             }
-                            6 -> {
+                            4 -> {
                                 navigateFragmentbyType(
                                     R.id.typeDetailsFragment,
                                     getString(R.string.photography_event)
@@ -267,7 +267,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
         homeMaintenanceList?.add(Service(R.drawable.electrician1, getString(R.string.electrician)))
         homeMaintenanceList?.add(Service(R.drawable.electrician1, getString(R.string.ac_service)))
         homeMaintenanceList?.add(Service(R.drawable.carpenter1, getString(R.string.carpenter)))
-        homeMaintenanceList?.add(Service(R.drawable.painter1, getString(R.string.painter)))
+//        homeMaintenanceList?.add(Service(R.drawable.painter1, getString(R.string.painter)))
         homeMaintenanceList?.add(Service(R.drawable.barber, getString(R.string.barber)))
         homeMaintenanceList?.add(
             Service(

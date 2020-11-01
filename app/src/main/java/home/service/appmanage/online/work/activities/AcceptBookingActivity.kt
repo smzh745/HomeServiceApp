@@ -3,6 +3,7 @@
 package home.service.appmanage.online.work.activities
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
@@ -11,12 +12,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.navigation.findNavController
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import home.service.appmanage.online.work.R
 import home.service.appmanage.online.work.utils.Constants.ACCEPT_WORKER_URL
+import home.service.appmanage.online.work.utils.Constants.END_WORK_URL
 import home.service.appmanage.online.work.utils.Constants.TAGI
 import home.service.appmanage.online.work.utils.Constants.WORKER_DETAILS_FARE_URL
 import home.service.appmanage.online.work.utils.SharedPrefUtils
@@ -30,6 +33,9 @@ import java.util.*
 @SuppressLint("SetTextI18n")
 class AcceptBookingActivity : BaseActivity() {
     var alertDialog2: AlertDialog? = null
+    private var isStart: Boolean = false
+    private var fare1: String? = null
+    private var bookId: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_accept_booking)
@@ -80,6 +86,76 @@ class AcceptBookingActivity : BaseActivity() {
             )
             startActivity(intent)
         }
+        start.setOnClickListener {
+            if (isStart) {
+                endWork()
+            } else {
+                isStart = true
+                start.text = getString(R.string.end)
+            }
+        }
+    }
+
+    private fun endWork() {
+        showDialog(getString(R.string.ending_work))
+        val postRequest: StringRequest = object : StringRequest(
+            Method.POST, END_WORK_URL,
+            Response.Listener<String?> { response ->
+                // response
+                Log.d(TAGI, response.toString())
+                val jsonObjects = JSONObject(response.toString())
+
+                if (jsonObjects.getInt("status") == 1) {
+                    Log.d(TAGI, "ok status")
+                    showToast(jsonObjects.getString("data"))
+                    hideDialog()
+                    endWOrkDialog()
+                } else if (jsonObjects.getInt("status") == 0) {
+                    showToast(jsonObjects.getString("data"))
+                    hideDialog()
+                }
+//                hideDialog()
+            },
+            Response.ErrorListener { error -> // error
+                Log.d(TAGI, "error: " + error!!.message)
+                hideDialog()
+            }
+        ) {
+            override fun getParams(): Map<String, String> {
+                val params: MutableMap<String, String> =
+                    HashMap()
+                params["fare"] = fare1.toString()
+                params["bid"] = bookId.toString()
+
+                return params
+            }
+        }
+        postRequest.retryPolicy = DefaultRetryPolicy(
+            30000,
+            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+        queue!!.add(postRequest)
+    }
+
+    private fun endWOrkDialog() {
+        val dialogClickListener =
+            DialogInterface.OnClickListener { dialog, which ->
+                when (which) {
+                    DialogInterface.BUTTON_POSITIVE -> {
+                        dialog.dismiss()
+
+                        openActivity(MainActivity())
+                        finish()
+                    }
+
+                }
+            }
+
+        val builder =
+            AlertDialog.Builder(this@AcceptBookingActivity)
+        builder.setMessage("Work ended. Please collect " + fare1 + " from " + requestName.text.toString() + ".")
+            .setPositiveButton("OK", dialogClickListener).show()
     }
 
 
@@ -179,6 +255,7 @@ class AcceptBookingActivity : BaseActivity() {
                 params["type"] = itemsString[5]
                 params["worktype"] = itemsString[6]
                 params["bid"] = itemsString[8]
+                bookId = itemsString[8]
                 params["name"] =
                     SharedPrefUtils.getStringData(this@AcceptBookingActivity, "name").toString()
                 params["wid"] =
@@ -207,7 +284,7 @@ class AcceptBookingActivity : BaseActivity() {
 
                 if (jsonObjects.getInt("status") == 1) {
                     Log.d(TAGI, "fetchFare: " + jsonObjects.getString("data"))
-                    val fare1: String =
+                    fare1 =
                         jsonObjects.getJSONObject("data").getString("fare")
                     val currency: String =
                         jsonObjects.getJSONObject("data").getString("currency")

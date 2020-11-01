@@ -3,6 +3,7 @@ package home.service.appmanage.online.work.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import home.service.appmanage.online.work.R
 import home.service.appmanage.online.work.activities.BaseActivity
 import home.service.appmanage.online.work.models.TypeDetails
+import home.service.appmanage.online.work.utils.Constants.TAGI
 import kotlinx.android.synthetic.main.worker_type_details_layout.view.*
 
 class TypeDetailsAdapter(
@@ -37,10 +39,14 @@ class TypeDetailsAdapter(
         p0.itemView.typeDesp.text = service.typeDesp
         p0.itemView.typePrice.text = service.currency + " " + service.fare
         p0.itemView.detailsClickBtn.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putInt("position", p1)
-            bundle.putParcelableArrayList("typed", serviceList)
-            (context as BaseActivity).navigateFragment(R.id.bookWorkerFragment, bundle)
+            if (service.type.equals(context.getString(R.string.photography_event), true)) {
+                Log.d(TAGI, "onBindViewHolder:nothing ")
+            } else {
+                val bundle = Bundle()
+                bundle.putInt("position", p1)
+                bundle.putParcelableArrayList("typed", serviceList)
+                (context as BaseActivity).navigateFragment(R.id.bookWorkerFragment, bundle)
+            }
         }
     }
 }

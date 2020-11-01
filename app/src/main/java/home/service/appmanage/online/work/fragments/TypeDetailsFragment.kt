@@ -1,5 +1,7 @@
 package home.service.appmanage.online.work.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -34,6 +36,16 @@ class TypeDetailsFragment : BaseFragment() {
     ): View? {
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.fragment_type_details, container, false)
+        if (requireArguments().getString("type")
+                .equals(getString(R.string.photography_event), true)
+        ) {
+            root!!.detailsClickBtn.visibility = View.VISIBLE
+        }
+        root!!.detailsClickBtn.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse("tel:" + getString(R.string._92317558327))
+            startActivity(intent)
+        }
         typeDetailsList = ArrayList()
         return root
     }

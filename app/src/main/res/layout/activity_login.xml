@@ -111,6 +111,7 @@
                 android:focusable="true"
                 android:gravity="center"
                 android:padding="@dimen/_5sdp"
+                android:visibility="gone"
                 android:text="@string/forget_password"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_12ssp"

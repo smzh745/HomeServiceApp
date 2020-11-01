@@ -6,10 +6,75 @@
     android:layout_height="match_parent"
     tools:context=".fragments.TypeDetailsFragment">
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/detailsClickBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/_10sdp"
+        android:clickable="true"
+        android:visibility="gone"
+        android:focusable="true"
+        android:orientation="vertical"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardElevation="@dimen/_5sdp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_7sdp"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/typeTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/to_book_any_event_or_photography_from_below_list_contact_on_this_number"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/typeDesp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:maxLines="3"
+                    android:text="@string/_92317558327"
+                    android:textColor="@color/colorText"
+                    android:textSize="@dimen/_13ssp" />
+
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:contentDescription="@string/app_name"
+                android:focusable="true"
+                android:padding="@dimen/_5sdp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_baseline_local_phone_24"
+                app:tint="@color/colorPrimaryDark" />
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/detailsClickBtn"
+        android:layout_marginTop="@dimen/_5sdp"
         android:overScrollMode="never"
         android:scrollbars="none" />
 

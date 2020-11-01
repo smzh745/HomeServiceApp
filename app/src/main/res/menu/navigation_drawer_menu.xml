@@ -12,11 +12,13 @@
         <item
             android:id="@+id/ratesFragment"
             android:icon="@drawable/review"
-            android:title="@string/rates" />
+            android:title="@string/rates"
+            android:visible="false" />
         <item
             android:id="@+id/bookingFragment"
             android:icon="@drawable/calendar"
-            android:title="@string/bookings" />
+            android:title="@string/bookings"
+            android:visible="false" />
     </group>
     <item
         android:id="@+id/logout"
