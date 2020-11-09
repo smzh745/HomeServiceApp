@@ -53,6 +53,7 @@ open class BaseActivity : AppCompatActivity() {
             supportActionBar!!.setDisplayShowHomeEnabled(true)
         }
     }
+
     fun fetchLocationName(lati: Double, longi: Double): String {
         geocoder = Geocoder(this@BaseActivity, Locale.getDefault())
         var addresses: List<Address>? = null
@@ -145,6 +146,11 @@ open class BaseActivity : AppCompatActivity() {
         RequestHandler.getInstance(applicationContext).addToRequestQueue(stringRequest)
     }
 
+    //TODO: start activity
+    fun startNewActivty(activity: Activity) {
+        startActivity(Intent(this@BaseActivity, activity.javaClass))
+        finish()
+    }
 
     fun openActivity(activity: Activity, isUserLogin: Boolean) {
         val intent = Intent(this@BaseActivity, activity.javaClass)
@@ -247,6 +253,7 @@ open class BaseActivity : AppCompatActivity() {
     private fun rad2deg(rad: Double): Double {
         return rad * 180.0 / Math.PI
     }
+
     fun roundOffDecimal(number: Double): Double? {
         val df = DecimalFormat("#.##")
         df.roundingMode = RoundingMode.CEILING
