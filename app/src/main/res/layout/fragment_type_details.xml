@@ -13,8 +13,8 @@
         android:layout_alignParentTop="true"
         android:layout_margin="@dimen/_10sdp"
         android:clickable="true"
-        android:visibility="gone"
         android:focusable="true"
+        android:visibility="gone"
         android:orientation="vertical"
         app:cardBackgroundColor="@android:color/white"
         app:cardCornerRadius="@dimen/_10sdp"
@@ -38,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/to_book_any_event_or_photography_from_below_list_contact_on_this_number"
                     android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/_14ssp"
                     android:textStyle="bold" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -48,8 +48,17 @@
                     android:layout_marginTop="@dimen/_3sdp"
                     android:maxLines="3"
                     android:text="@string/_92317558327"
-                    android:textColor="@color/colorText"
+                    android:textColor="@color/colorAccent"
                     android:textSize="@dimen/_13ssp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:maxLines="3"
+                    android:text="@string/note_as_we_work_on_your_requirements_and_details_provided_in_the_list_may_change_accorrding_to_demand_and_work"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/_12ssp" />
 
 
             </LinearLayout>

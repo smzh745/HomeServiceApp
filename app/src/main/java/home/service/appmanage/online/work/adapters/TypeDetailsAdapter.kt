@@ -39,14 +39,24 @@ class TypeDetailsAdapter(
         p0.itemView.typeDesp.text = service.typeDesp
         p0.itemView.typePrice.text = service.currency + " " + service.fare
         p0.itemView.detailsClickBtn.setOnClickListener {
-            if (service.type.equals(context.getString(R.string.photography_event), true)) {
-                Log.d(TAGI, "onBindViewHolder:nothing ")
-            } else {
-                val bundle = Bundle()
-                bundle.putInt("position", p1)
-                bundle.putParcelableArrayList("typed", serviceList)
-                (context as BaseActivity).navigateFragment(R.id.bookWorkerFragment, bundle)
-            }
+            openDetails(service, p1)
+        }
+        p0.itemView.view.setOnClickListener {
+            openDetails(service, p1)
+        }
+    }
+
+    private fun openDetails(
+        service: TypeDetails,
+        p1: Int
+    ) {
+        if (service.type.equals(context.getString(R.string.photography_event), true)) {
+            Log.d(TAGI, "onBindViewHolder:nothing ")
+        } else {
+            val bundle = Bundle()
+            bundle.putInt("position", p1)
+            bundle.putParcelableArrayList("typed", serviceList)
+            (context as BaseActivity).navigateFragment(R.id.bookWorkerFragment, bundle)
         }
     }
 }

@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".activities.MainActivity"
-    tools:openDrawer="start">
+    tools:openDrawer="start"
+    tools:ignore="MissingClass">
 
     <include
         layout="@layout/app_bar_main"
