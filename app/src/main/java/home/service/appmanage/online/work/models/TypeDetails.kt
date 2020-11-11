@@ -9,5 +9,7 @@ data class TypeDetails(
     val typeTitle: String,
     val typeDesp: String,
     val fare: String,
-    val type: String, val currency: String
+    val type: String, val currency: String,
+    val video: String, val isVideo: Int,
+    val subType: String, val isSubtype: Int
 ) : Parcelable

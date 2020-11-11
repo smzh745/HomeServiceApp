@@ -81,6 +81,8 @@ class TypeDetailsFragment : BaseFragment() {
                                 ,
                                 jsonObject.getString("type"),
                                 jsonObject.getString("currency")
+                                , jsonObject.getString("video"), jsonObject.getInt("isVideo"),
+                                jsonObject.getString("sub_type"), jsonObject.getInt("isSubtype")
                             )
                         )
                     }
