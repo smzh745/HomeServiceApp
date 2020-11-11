@@ -157,7 +157,6 @@ class RegisterActivity : BaseActivity() {
                 }
             }
             //adding the request to volley
-            //adding the request to volley
             Volley.newRequestQueue(this).add(volleyMultipartRequest)
         }
     }

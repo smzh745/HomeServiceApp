@@ -1,3 +1,5 @@
+@file:Suppress("LocalVariableName")
+
 package home.service.appmanage.online.work.activities
 
 import android.annotation.SuppressLint
@@ -14,16 +16,25 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.android.volley.Response
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.StringRequest
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import home.service.appmanage.online.work.R
+import home.service.appmanage.online.work.utils.Constants.CHANGE_PASS_USER_URL
+import home.service.appmanage.online.work.utils.Constants.CHANGE_PASS_WORKER_URL
 import home.service.appmanage.online.work.utils.Constants.UPLOAD_DIRECTORY
+import home.service.appmanage.online.work.utils.RequestHandler
 import home.service.appmanage.online.work.utils.SharedPrefUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.change_pass_layout.view.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
+import org.json.JSONException
+import org.json.JSONObject
+import java.util.HashMap
 
 class MainActivity : BaseActivity() {
     private var headerView: View? = null
@@ -60,21 +71,17 @@ class MainActivity : BaseActivity() {
         navigationView.setupWithNavController(navController)
         val logout = navigationView.menu.findItem(R.id.logout)
         val changePasword = navigationView.menu.findItem(R.id.change_pass)
-        logout.setOnMenuItemClickListener(object : MenuItem.OnMenuItemClickListener {
-            override fun onMenuItemClick(item: MenuItem?): Boolean {
-                SharedPrefUtils.saveData(this@MainActivity, "isLoggedIn", false)
-                finish()
-                openActivity(ChooseAccountActivity())
-                return true
-            }
-        })
-        changePasword.setOnMenuItemClickListener(object : MenuItem.OnMenuItemClickListener {
-            override fun onMenuItemClick(item: MenuItem?): Boolean {
-                closeNavigationDrawer()
-                changePasswordDialog()
-                return true
-            }
-        })
+        logout.setOnMenuItemClickListener {
+            SharedPrefUtils.saveData(this@MainActivity, "isLoggedIn", false)
+            finish()
+            openActivity(ChooseAccountActivity())
+            true
+        }
+        changePasword.setOnMenuItemClickListener {
+            closeNavigationDrawer()
+            changePasswordDialog()
+            true
+        }
 
         headerView = navigationView.getHeaderView(0)
         if (SharedPrefUtils.getBooleanData(this, "isWorker")) {
@@ -108,7 +115,19 @@ class MainActivity : BaseActivity() {
             if (deleteDialogView.pass.text!!.isEmpty() || deleteDialogView.oldPass.text!!.isEmpty()) {
                 showToast(getString(R.string.please_fill_field))
             } else {
-
+                if (SharedPrefUtils.getBooleanData(this, "isWorker")) {
+                    changePasswordUrl(
+                        deleteDialogView.pass.text.toString(),
+                        deleteDialogView.oldPass.text.toString(),
+                        CHANGE_PASS_WORKER_URL, deleteDialog
+                    )
+                } else {
+                    changePasswordUrl(
+                        deleteDialogView.pass.text.toString(),
+                        deleteDialogView.oldPass.text.toString(),
+                        CHANGE_PASS_USER_URL, deleteDialog
+                    )
+                }
             }
         }
         deleteDialogView.cancelBtn.setOnClickListener {
@@ -118,6 +137,60 @@ class MainActivity : BaseActivity() {
 
         deleteDialog.show()
         deleteDialog.window!!.decorView.setBackgroundResource(android.R.color.transparent)
+    }
+
+    private fun changePasswordUrl(
+        newPass: String,
+        oldPass: String,
+        url: String,
+        deleteDialog: AlertDialog
+    ) {
+        showDialog(getString(R.string.updating))
+        val stringRequest: StringRequest =
+            object : StringRequest(
+                Method.POST,
+                url,
+                Response.Listener { response: String ->
+                    try {
+                        try {
+                            val response_data = JSONObject(response)
+                            if (response_data.getBoolean("error")) {
+                                showToast(response_data.getString("message"))
+                            } else {
+                                showToast(response_data.getString("message"))
+                                deleteDialog.dismiss()
+                            }
+                            hideDialog()
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                            hideDialog()
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                },
+                Response.ErrorListener { error: VolleyError ->
+                    try {
+                        hideDialog()
+                        showToast(error.message!!)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            ) {
+                override fun getParams(): Map<String, String> {
+                    val params: MutableMap<String, String> =
+                        HashMap()
+                    params["newPass"] = newPass
+                    params["oldPass"] = oldPass
+                    params["userId"] =
+                        SharedPrefUtils.getStringData(this@MainActivity, "id").toString()
+                    return params
+                }
+            }
+
+
+        RequestHandler.getInstance(applicationContext).addToRequestQueue(stringRequest)
     }
 
 

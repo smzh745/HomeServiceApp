@@ -105,4 +105,5 @@
     <string name="enter_old_password">Enter Old Password</string>
     <string name="update">Update</string>
     <string name="enter_new_password">Enter New Password</string>
+    <string name="updating">Updating..</string>
 </resources>

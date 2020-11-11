@@ -15,6 +15,8 @@ object Constants {
     const val WORKER_DETAILS_URL = ROOT_URL + "/fetch_all_workers_data.php"
     const val WORKER_DETAILS_FARE_URL = ROOT_URL + "/fetch_work_fare.php"
     const val END_WORK_URL = ROOT_URL + "/end_work.php"
+    const val CHANGE_PASS_USER_URL = ROOT_URL + "/changePasswordByApp.php"
+    const val CHANGE_PASS_WORKER_URL = ROOT_URL + "/changePassWorker.php"
     const val REQUEST_CHECK_SETTINGS_GPS = 0x1
     const val PICK_IMAGE = 101
     const val PICK_CAM = 102
