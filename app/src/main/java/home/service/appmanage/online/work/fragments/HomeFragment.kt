@@ -264,9 +264,9 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
 
     private fun gethomeMaintenanceList(): ArrayList<Service> {
 //        homeMaintenanceList?.add(Service(R.drawable.plumber, getString(R.string.plumber)))
-        homeMaintenanceList?.add(Service(R.drawable.electrician1, getString(R.string.electrician)))
-        homeMaintenanceList?.add(Service(R.drawable.electrician1, getString(R.string.ac_service)))
-        homeMaintenanceList?.add(Service(R.drawable.carpenter1, getString(R.string.carpenter)))
+        homeMaintenanceList?.add(Service(R.drawable.electrition, getString(R.string.electrician)))
+        homeMaintenanceList?.add(Service(R.drawable.technician, getString(R.string.ac_service)))
+        homeMaintenanceList?.add(Service(R.drawable.carpenter, getString(R.string.carpenter)))
 //        homeMaintenanceList?.add(Service(R.drawable.painter1, getString(R.string.painter)))
         homeMaintenanceList?.add(Service(R.drawable.barber, getString(R.string.barber)))
         homeMaintenanceList?.add(

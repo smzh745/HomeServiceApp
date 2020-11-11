@@ -21,6 +21,10 @@
             android:visible="false" />
     </group>
     <item
+        android:id="@+id/change_pass"
+        android:icon="@drawable/ic_baseline_lock_24"
+        android:title="@string/change_password" />
+    <item
         android:id="@+id/logout"
         android:icon="@drawable/logout"
         android:title="@string/logout" />
