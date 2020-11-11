@@ -100,4 +100,5 @@
     <string name="ending_work">Ending Work…</string>
     <string name="note_as_we_work_on_your_requirements_and_details_provided_in_the_list_may_change_accorrding_to_demand_and_work">Note: As we work on your requirements and details provided in the list may change accorrding to demand and work.</string>
     <string name="view_sample"><b><u>View Sample</u></b></string>
+    <string name="no_internet">No Internet Connection!</string>
 </resources>

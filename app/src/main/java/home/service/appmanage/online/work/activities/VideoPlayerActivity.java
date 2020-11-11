@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
+import com.find.lost.app.phone.utils.InternetConnection;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -42,9 +43,9 @@ import java.io.IOException;
 
 import home.service.appmanage.online.work.R;
 
-public class VideoPlayerActivity extends Activity implements ExoPlayer.EventListener {
+public class VideoPlayerActivity extends BaseActivity implements ExoPlayer.EventListener {
     TextureView textureView;
-    String  hlsVideoUri;
+    String hlsVideoUri;
     private SimpleExoPlayer player;
     private ProgressBar progressBar;
 
@@ -53,7 +54,10 @@ public class VideoPlayerActivity extends Activity implements ExoPlayer.EventList
         super.onCreate(savedInstanceState);
         try {
             setContentView(R.layout.activity_video_player);
-
+            if (new InternetConnection().checkConnection(this)) {
+                showToast(getString(R.string.no_internet));
+                finish();
+            }
             Intent intent = getIntent();
             hlsVideoUri = intent.getStringExtra("videoUrl");
 
@@ -69,7 +73,7 @@ public class VideoPlayerActivity extends Activity implements ExoPlayer.EventList
 
 
             // 3. Create the player
-            player = ExoPlayerFactory.newSimpleInstance(this,trackSelector,loadControl);
+            player = ExoPlayerFactory.newSimpleInstance(this, trackSelector, loadControl);
 //            player.setVideoTextureView(textureView);
             SimpleExoPlayerView simpleExoPlayerView = findViewById(R.id.player_view);
             simpleExoPlayerView.setUseController(false);
@@ -81,53 +85,53 @@ public class VideoPlayerActivity extends Activity implements ExoPlayer.EventList
             DefaultBandwidthMeter defaultBandwidthMeter = new DefaultBandwidthMeter();
             // Produces DataSource instances through which media data is loaded.
             DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(this,
-                    Util.getUserAgent(this,"Exo2"),defaultBandwidthMeter);
+                    Util.getUserAgent(this, "Exo2"), defaultBandwidthMeter);
             // Produces Extractor instances for parsing the media data.
             ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
             // This is the MediaSource representing the media to be played.
-            HlsMediaSource hlsMediaSource = new HlsMediaSource(Uri.parse(hlsVideoUri),dataSourceFactory,mainHandler,new AdaptiveMediaSourceEventListener() {
+            HlsMediaSource hlsMediaSource = new HlsMediaSource(Uri.parse(hlsVideoUri), dataSourceFactory, mainHandler, new AdaptiveMediaSourceEventListener() {
                 @Override
-                public void onMediaPeriodCreated(int windowIndex,MediaSource.MediaPeriodId mediaPeriodId) {
+                public void onMediaPeriodCreated(int windowIndex, MediaSource.MediaPeriodId mediaPeriodId) {
 
                 }
 
                 @Override
-                public void onMediaPeriodReleased(int windowIndex,MediaSource.MediaPeriodId mediaPeriodId) {
+                public void onMediaPeriodReleased(int windowIndex, MediaSource.MediaPeriodId mediaPeriodId) {
 
                 }
 
                 @Override
-                public void onLoadStarted(int windowIndex,@Nullable MediaSource.MediaPeriodId mediaPeriodId,LoadEventInfo loadEventInfo,MediaLoadData mediaLoadData) {
+                public void onLoadStarted(int windowIndex, @Nullable MediaSource.MediaPeriodId mediaPeriodId, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
 
                 }
 
                 @Override
-                public void onLoadCompleted(int windowIndex,@Nullable MediaSource.MediaPeriodId mediaPeriodId,LoadEventInfo loadEventInfo,MediaLoadData mediaLoadData) {
+                public void onLoadCompleted(int windowIndex, @Nullable MediaSource.MediaPeriodId mediaPeriodId, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
 
                 }
 
                 @Override
-                public void onLoadCanceled(int windowIndex,@Nullable MediaSource.MediaPeriodId mediaPeriodId,LoadEventInfo loadEventInfo,MediaLoadData mediaLoadData) {
+                public void onLoadCanceled(int windowIndex, @Nullable MediaSource.MediaPeriodId mediaPeriodId, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
 
                 }
 
                 @Override
-                public void onLoadError(int windowIndex,@Nullable MediaSource.MediaPeriodId mediaPeriodId,LoadEventInfo loadEventInfo,MediaLoadData mediaLoadData,IOException error,boolean wasCanceled) {
+                public void onLoadError(int windowIndex, @Nullable MediaSource.MediaPeriodId mediaPeriodId, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData, IOException error, boolean wasCanceled) {
 
                 }
 
                 @Override
-                public void onReadingStarted(int windowIndex,MediaSource.MediaPeriodId mediaPeriodId) {
+                public void onReadingStarted(int windowIndex, MediaSource.MediaPeriodId mediaPeriodId) {
 
                 }
 
                 @Override
-                public void onUpstreamDiscarded(int windowIndex,MediaSource.MediaPeriodId mediaPeriodId,MediaLoadData mediaLoadData) {
+                public void onUpstreamDiscarded(int windowIndex, MediaSource.MediaPeriodId mediaPeriodId, MediaLoadData mediaLoadData) {
 
                 }
 
                 @Override
-                public void onDownstreamFormatChanged(int windowIndex,@Nullable MediaSource.MediaPeriodId mediaPeriodId,MediaLoadData mediaLoadData) {
+                public void onDownstreamFormatChanged(int windowIndex, @Nullable MediaSource.MediaPeriodId mediaPeriodId, MediaLoadData mediaLoadData) {
 
                 }
 
@@ -146,7 +150,7 @@ public class VideoPlayerActivity extends Activity implements ExoPlayer.EventList
 
 
     @Override
-    public void onTracksChanged(TrackGroupArray trackGroups,TrackSelectionArray trackSelections) {
+    public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
 
     }
 
@@ -156,7 +160,7 @@ public class VideoPlayerActivity extends Activity implements ExoPlayer.EventList
     }
 
     @Override
-    public void onPlayerStateChanged(boolean playWhenReady,int playbackState) {
+    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
 
         switch (playbackState) {
             case Player.STATE_BUFFERING:
@@ -184,9 +188,9 @@ public class VideoPlayerActivity extends Activity implements ExoPlayer.EventList
         AlertDialog.Builder adb = new AlertDialog.Builder(VideoPlayerActivity.this);
         adb.setTitle("Could not able to stream video");
         adb.setMessage("It seems that something is going wrong.\nPlease try again.");
-        adb.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+        adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog,int which) {
+            public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 finish(); // take out user from this activity. you can skip this
             }
@@ -209,8 +213,6 @@ public class VideoPlayerActivity extends Activity implements ExoPlayer.EventList
         super.onDestroy();
         player.release();
     }
-
-
 
 
 }
