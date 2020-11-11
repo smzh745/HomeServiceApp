@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.navigation.findNavController
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -126,6 +125,8 @@ class AcceptBookingActivity : BaseActivity() {
                     HashMap()
                 params["fare"] = fare1.toString()
                 params["bid"] = bookId.toString()
+                params["wid"] =
+                    SharedPrefUtils.getStringData(this@AcceptBookingActivity, "id").toString()
 
                 return params
             }

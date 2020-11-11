@@ -6,7 +6,6 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.Window
 import androidx.appcompat.app.AlertDialog
@@ -34,7 +33,7 @@ import kotlinx.android.synthetic.main.change_pass_layout.view.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import org.json.JSONException
 import org.json.JSONObject
-import java.util.HashMap
+import java.util.*
 
 class MainActivity : BaseActivity() {
     private var headerView: View? = null
