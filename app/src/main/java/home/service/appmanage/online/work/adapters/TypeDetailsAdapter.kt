@@ -38,6 +38,12 @@ class TypeDetailsAdapter(
         p0.itemView.typeTitle.text = service.typeTitle
         p0.itemView.typeDesp.text = service.typeDesp
         p0.itemView.typePrice.text = service.currency + " " + service.fare
+        if (service.isVideo == 1) {
+            p0.itemView.viewSample.visibility = View.VISIBLE
+        } else {
+            p0.itemView.viewSample.visibility = View.GONE
+
+        }
         p0.itemView.detailsClickBtn.setOnClickListener {
             openDetails(service, p1)
         }
