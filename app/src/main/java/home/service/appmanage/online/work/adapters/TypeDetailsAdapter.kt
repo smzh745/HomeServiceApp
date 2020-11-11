@@ -2,6 +2,7 @@ package home.service.appmanage.online.work.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import home.service.appmanage.online.work.R
 import home.service.appmanage.online.work.activities.BaseActivity
+import home.service.appmanage.online.work.activities.VideoPlayerActivity
 import home.service.appmanage.online.work.models.TypeDetails
 import home.service.appmanage.online.work.utils.Constants.TAGI
 import kotlinx.android.synthetic.main.worker_type_details_layout.view.*
@@ -58,11 +60,20 @@ class TypeDetailsAdapter(
     ) {
         if (service.type.equals(context.getString(R.string.photography_event), true)) {
             Log.d(TAGI, "onBindViewHolder:nothing ")
+            playVideo(service)
         } else {
             val bundle = Bundle()
             bundle.putInt("position", p1)
             bundle.putParcelableArrayList("typed", serviceList)
             (context as BaseActivity).navigateFragment(R.id.bookWorkerFragment, bundle)
+        }
+    }
+
+    private fun playVideo(service: TypeDetails) {
+        if (service.isVideo == 1) {
+            val intent = Intent(context, VideoPlayerActivity::class.java)
+            intent.putExtra("videoUrl", service.video)
+            context.startActivity(intent)
         }
     }
 }
