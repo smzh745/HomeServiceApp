@@ -1,7 +1,5 @@
 package home.service.appmanage.online.work.fragments
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,19 +13,19 @@ import home.service.appmanage.online.work.R
 import home.service.appmanage.online.work.adapters.TypeDetailsAdapter
 import home.service.appmanage.online.work.models.TypeDetails
 import home.service.appmanage.online.work.utils.Constants.TAGI
-import home.service.appmanage.online.work.utils.Constants.WORKER_DETAILS_URL
+import home.service.appmanage.online.work.utils.Constants.WORKER_DETAILS_SUB_URL
 import kotlinx.android.synthetic.main.fragment_type_details.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
 
-class TypeDetailsFragment : BaseFragment() {
+class TypeDetailsSubFragment : BaseFragment() {
     private var typeDetailsList: ArrayList<TypeDetails>? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as AppCompatActivity).supportActionBar?.title =
-            requireArguments().getString("type")
+            requireArguments().getString("subType")
     }
 
     override fun onCreateView(
@@ -49,7 +47,7 @@ class TypeDetailsFragment : BaseFragment() {
     private fun intiData() {
         showDialog(getString(R.string.loading))
         val postRequest: StringRequest = object : StringRequest(
-            Method.POST, WORKER_DETAILS_URL,
+            Method.POST, WORKER_DETAILS_SUB_URL,
             Response.Listener<String?> { response ->
                 // response
                 Log.d(TAGI, response.toString())
@@ -101,7 +99,8 @@ class TypeDetailsFragment : BaseFragment() {
                     HashMap()
 
                 params["type"] =
-                    requireArguments().getString("type").toString().toLowerCase(Locale.getDefault())
+                    requireArguments().getString("subType").toString()
+                        .toLowerCase(Locale.getDefault())
                 return params
             }
         }

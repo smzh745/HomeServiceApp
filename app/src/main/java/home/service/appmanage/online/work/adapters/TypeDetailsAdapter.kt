@@ -37,6 +37,7 @@ class TypeDetailsAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(p0: MyHolder, p1: Int) {
         val service = serviceList[p1]
+
         p0.itemView.typeTitle.text = service.typeTitle
         p0.itemView.typeDesp.text = service.typeDesp
         p0.itemView.typePrice.text = service.currency + " " + service.fare

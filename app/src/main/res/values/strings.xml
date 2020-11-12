@@ -106,4 +106,13 @@
     <string name="update">Update</string>
     <string name="enter_new_password">Enter New Password</string>
     <string name="updating">Updating..</string>
+    <string name="ac_inverter">A/C Inverter</string>
+    <string name="ac_split">A/C Split</string>
+    <string name="window_ac">Window A/C</string>
+    <string name="standing_ac">Standing A/C</string>
+    <string name="cast_ac">Cassette A/C</string>
+    <string name="movie_hd">Movie Making (HD Quality)</string>
+    <string name="movie_hr">Movie Making (High Resolution)</string>
+    <string name="photo_shoot">Photo Shoot</string>
+    <string name="events">Events</string>
 </resources>

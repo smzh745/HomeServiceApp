@@ -32,7 +32,7 @@ class SplashScreenActivity : BaseActivity() {
 
             startNewActivty(MainActivity())
 
-        }, 4000)
+        }, 3000)
     }
 
     override fun onBackPressed() {

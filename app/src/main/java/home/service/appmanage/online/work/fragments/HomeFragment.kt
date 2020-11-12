@@ -111,12 +111,12 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
                 object : ClickListener {
                     override fun onClick(view: View?, position: Int) {
                         when (position) {
-                         /*   0 -> {
-                                navigateFragmentbyType(
-                                    R.id.typeDetailsFragment,
-                                    getString(R.string.plumber)
-                                )
-                            }*/
+                            /*   0 -> {
+                                   navigateFragmentbyType(
+                                       R.id.typeDetailsFragment,
+                                       getString(R.string.plumber)
+                                   )
+                               }*/
                             0 -> {
                                 navigateFragmentbyType(
                                     R.id.typeDetailsFragment,
@@ -125,7 +125,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
                             }
                             1 -> {
                                 navigateFragmentbyType(
-                                    R.id.typeDetailsFragment,
+                                    R.id.subTypeFragment,
                                     getString(R.string.ac_service)
                                 )
                             }
@@ -135,12 +135,12 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
                                     getString(R.string.carpenter)
                                 )
                             }
-                       /*     4 -> {
-                                navigateFragmentbyType(
-                                    R.id.typeDetailsFragment,
-                                    getString(R.string.painter)
-                                )
-                            }*/
+                            /*     4 -> {
+                                     navigateFragmentbyType(
+                                         R.id.typeDetailsFragment,
+                                         getString(R.string.painter)
+                                     )
+                                 }*/
                             3 -> {
                                 navigateFragmentbyType(
                                     R.id.typeDetailsFragment,
@@ -149,7 +149,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
                             }
                             4 -> {
                                 navigateFragmentbyType(
-                                    R.id.typeDetailsFragment,
+                                    R.id.subTypeFragment,
                                     getString(R.string.photography_event)
                                 )
                             }

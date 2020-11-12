@@ -50,7 +50,18 @@
     </fragment>
     <fragment
         android:id="@+id/subTypeFragment"
-        android:name="home.service.appmanage.online.work.SubTypeFragment"
-        android:label="fragment_sub_type"
-        tools:layout="@layout/fragment_sub_type" />
+        android:name="home.service.appmanage.online.work.fragments.SubTypeFragment"
+        tools:layout="@layout/fragment_sub_type">
+        <argument
+            android:name="type"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/subTypeDetailsFragment"
+        android:name="home.service.appmanage.online.work.fragments.TypeDetailsSubFragment"
+        tools:layout="@layout/fragment_type_details">
+        <argument
+            android:name="type"
+            app:argType="string" />
+    </fragment>
 </navigation>

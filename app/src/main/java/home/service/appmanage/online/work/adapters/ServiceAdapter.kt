@@ -8,13 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import home.service.appmanage.online.work.R
 import home.service.appmanage.online.work.models.Service
-import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters
-import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection
-import kotlinx.android.synthetic.main.header_layout.view.*
 import kotlinx.android.synthetic.main.service_layout.view.*
 
 class ServiceAdapter(
-    private val context: Context, val serviceList: ArrayList<Service>
+    private val context: Context, private val serviceList: ArrayList<Service>
 ) : RecyclerView.Adapter<ServiceAdapter.MyHolder>() {
 
 
