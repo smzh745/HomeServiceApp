@@ -48,4 +48,9 @@
             android:name="position"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/subTypeFragment"
+        android:name="home.service.appmanage.online.work.SubTypeFragment"
+        android:label="fragment_sub_type"
+        tools:layout="@layout/fragment_sub_type" />
 </navigation>
