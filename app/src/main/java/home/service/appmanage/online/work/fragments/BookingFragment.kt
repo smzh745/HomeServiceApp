@@ -5,13 +5,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import home.service.appmanage.online.work.R
+import home.service.appmanage.online.work.adapters.BookingAdapter
 import home.service.appmanage.online.work.models.Booking
 import home.service.appmanage.online.work.utils.Constants.FETCH_BOOKING_URL
 import home.service.appmanage.online.work.utils.Constants.TAGI
 import home.service.appmanage.online.work.utils.SharedPrefUtils
+import kotlinx.android.synthetic.main.fragment_booking.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
@@ -67,9 +70,14 @@ class BookingFragment : BaseFragment() {
                         )
 
                     }
+                    val adapter = BookingAdapter(bookList!!)
+                    root!!.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+                    root!!.recyclerView.adapter = adapter
+                    checkEmptyView()
 
                 } else if (jsonObjects.getInt("status") == 0) {
                     Log.d(TAGI, "intiData: " + jsonObjects.getString("data"))
+                    checkEmptyView()
 
                 }
                 hideDialog()
@@ -77,6 +85,8 @@ class BookingFragment : BaseFragment() {
             Response.ErrorListener { error -> // error
                 Log.d(TAGI, "error: " + error!!.message)
                 hideDialog()
+                checkEmptyView()
+
             }
         ) {
             override fun getParams(): Map<String, String> {
@@ -91,4 +101,13 @@ class BookingFragment : BaseFragment() {
         queue!!.add(postRequest)
     }
 
+    private fun checkEmptyView() {
+        if (bookList!!.isEmpty()) {
+            root!!.recyclerView.visibility = View.GONE
+            root!!.emptyView.visibility = View.VISIBLE
+        } else {
+            root!!.recyclerView.visibility = View.VISIBLE
+            root!!.emptyView.visibility = View.GONE
+        }
+    }
 }

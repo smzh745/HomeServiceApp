@@ -92,6 +92,8 @@ class TypeDetailsFragment : BaseFragment() {
             Response.ErrorListener { error -> // error
                 Log.d(TAGI, "error: " + error!!.message)
                 hideDialog()
+                checkEmptyView()
+
             }
         ) {
             override fun getParams(): Map<String, String> {
