@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import home.service.appmanage.online.work.R
 import home.service.appmanage.online.work.activities.BaseActivity
+import home.service.appmanage.online.work.activities.PlayVideoActivity
 import home.service.appmanage.online.work.activities.VideoPlayerActivity
 import home.service.appmanage.online.work.models.TypeDetails
 import home.service.appmanage.online.work.utils.Constants.TAGI
@@ -72,7 +73,7 @@ class TypeDetailsAdapter(
 
     private fun playVideo(service: TypeDetails) {
         if (service.isVideo == 1) {
-            val intent = Intent(context, VideoPlayerActivity::class.java)
+            val intent = Intent(context, PlayVideoActivity::class.java)
             intent.putExtra("videoUrl", service.video)
             context.startActivity(intent)
         }

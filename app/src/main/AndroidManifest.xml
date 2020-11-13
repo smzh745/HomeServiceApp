@@ -103,6 +103,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <activity
             android:name=".activities.VideoPlayerActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -120,6 +121,12 @@
                 <data android:scheme="file" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.PlayVideoActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme" />
+
     </application>
 
 </manifest>

@@ -115,4 +115,6 @@
     <string name="movie_hr">Movie Making (High Resolution)</string>
     <string name="photo_shoot">Photo Shoot</string>
     <string name="events">Events</string>
+    <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
+
 </resources>
