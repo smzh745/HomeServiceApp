@@ -116,5 +116,6 @@
     <string name="photo_shoot">Photo Shoot</string>
     <string name="events">Events</string>
     <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
+    <string name="no_booking_found">No Booking Found!</string>
 
 </resources>
