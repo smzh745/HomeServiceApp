@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -43,7 +45,9 @@ import java.io.IOException;
 
 import home.service.appmanage.online.work.R;
 
-public class VideoPlayerActivity extends BaseActivity implements ExoPlayer.EventListener {
+import static home.service.appmanage.online.work.utils.Constants.TAGI;
+
+public class VideoPlayerActivity extends Activity implements ExoPlayer.EventListener {
     TextureView textureView;
     String hlsVideoUri;
     private SimpleExoPlayer player;
@@ -54,13 +58,13 @@ public class VideoPlayerActivity extends BaseActivity implements ExoPlayer.Event
         super.onCreate(savedInstanceState);
         try {
             setContentView(R.layout.activity_video_player);
-            if (new InternetConnection().checkConnection(this)) {
+            if (!new InternetConnection().checkConnection(this)) {
                 showToast(getString(R.string.no_internet));
                 finish();
             }
             Intent intent = getIntent();
             hlsVideoUri = intent.getStringExtra("videoUrl");
-
+            Log.d(TAGI, "onCreate: " + hlsVideoUri);
 
             // 1. Create a default TrackSelector
             Handler mainHandler = new Handler();
@@ -146,6 +150,10 @@ public class VideoPlayerActivity extends BaseActivity implements ExoPlayer.Event
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void showToast(String string) {
+        Toast.makeText(getApplicationContext(), string, Toast.LENGTH_LONG).show();
     }
 
 

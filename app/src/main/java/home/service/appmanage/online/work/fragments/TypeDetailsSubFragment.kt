@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Response
+import com.android.volley.RetryPolicy
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import home.service.appmanage.online.work.R
 import home.service.appmanage.online.work.adapters.TypeDetailsAdapter
@@ -102,6 +104,19 @@ class TypeDetailsSubFragment : BaseFragment() {
                     requireArguments().getString("subType").toString()
                         .toLowerCase(Locale.getDefault())
                 return params
+            }
+        }
+        postRequest.retryPolicy = object : RetryPolicy {
+            override fun getCurrentTimeout(): Int {
+                return 50000
+            }
+
+            override fun getCurrentRetryCount(): Int {
+                return 50000
+            }
+
+            override fun retry(error: VolleyError) {
+                Log.d(TAGI, "retry: " + error.message)
             }
         }
         queue!!.add(postRequest)

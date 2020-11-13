@@ -72,6 +72,7 @@ class MainActivity : BaseActivity() {
         val changePasword = navigationView.menu.findItem(R.id.change_pass)
         logout.setOnMenuItemClickListener {
             SharedPrefUtils.saveData(this@MainActivity, "isLoggedIn", false)
+            SharedPrefUtils.saveData(this@MainActivity, "isWorker", false)
             finish()
             openActivity(ChooseAccountActivity())
             true
@@ -84,6 +85,7 @@ class MainActivity : BaseActivity() {
 
         headerView = navigationView.getHeaderView(0)
         if (SharedPrefUtils.getBooleanData(this, "isWorker")) {
+            navigationView.menu.findItem(R.id.bookingFragment).setVisible(false)
             headerView!!.name.text = SharedPrefUtils.getStringData(this@MainActivity, "name")
             headerView!!.email.text = SharedPrefUtils.getStringData(this@MainActivity, "email")
             Glide.with(this)

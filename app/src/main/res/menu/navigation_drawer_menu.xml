@@ -17,8 +17,7 @@
         <item
             android:id="@+id/bookingFragment"
             android:icon="@drawable/calendar"
-            android:title="@string/bookings"
-            android:visible="false" />
+            android:title="@string/bookings" />
     </group>
     <item
         android:id="@+id/change_pass"
