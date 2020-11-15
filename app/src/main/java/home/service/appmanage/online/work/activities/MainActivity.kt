@@ -62,6 +62,7 @@ class MainActivity : BaseActivity() {
                 R.id.homeFragment,
                 R.id.ratesFragment,
                 R.id.bookingFragment,
+                R.id.walletFragment2,
                 R.id.change_pass,
                 R.id.logout
             ), drawer_layout
@@ -92,6 +93,7 @@ class MainActivity : BaseActivity() {
                 .load(UPLOAD_DIRECTORY + SharedPrefUtils.getStringData(this, "profilePic"))
                 .into(headerView!!.profileImage)
         } else {
+            navigationView.menu.findItem(R.id.walletFragment2).setVisible(false)
             headerView!!.name.text = SharedPrefUtils.getStringData(this@MainActivity, "name")
             headerView!!.email.text = SharedPrefUtils.getStringData(this@MainActivity, "email")
         }

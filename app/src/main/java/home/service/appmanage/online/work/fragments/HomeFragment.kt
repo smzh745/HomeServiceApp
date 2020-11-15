@@ -96,14 +96,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
         homeapplianceList = ArrayList()
         otherList = ArrayList()
 
-        if (SharedPrefUtils.getBooleanData(requireActivity(), "isWorker")) {
-            root!!.recyclerView.visibility = View.GONE
-            root!!.workerLayout.visibility = View.VISIBLE
-            initMap()
-        } else {
-            root!!.recyclerView.visibility = View.VISIBLE
-            initUserView()
-        }
+
         root!!.recyclerView.addOnItemTouchListener(
             RecyclerTouchListener(
                 requireActivity(),
@@ -166,7 +159,17 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
         return root
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        if (SharedPrefUtils.getBooleanData(requireActivity(), "isWorker")) {
+            root!!.recyclerView.visibility = View.GONE
+            root!!.workerLayout.visibility = View.VISIBLE
+            initMap()
+        } else {
+            root!!.recyclerView.visibility = View.VISIBLE
+            initUserView()
+        }
+    }
     private fun initMap() {
 
         val manager =
@@ -227,11 +230,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
         queue!!.add(postRequest)
     }
 
-    private fun openPickWOrkerActivity(type: String) {
-        val intent = Intent(requireActivity(), ChooseWorkerActivity::class.java)
-        intent.putExtra("type", type)
-        startActivity(intent)
-    }
+
 
     private fun initUserView() {
         val adapter = ServiceAdapter(
@@ -400,13 +399,17 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
 
     @Synchronized
     private fun buildGoogleApiClient() {
-        mGoogleApiClient = GoogleApiClient.Builder(requireActivity())
-            .enableAutoManage(requireActivity(), 0, this)
-            .addConnectionCallbacks(this)
-            .addOnConnectionFailedListener(this)
-            .addApi(LocationServices.API)
-            .build()
-        mGoogleApiClient!!.connect()
+        try {
+            mGoogleApiClient = GoogleApiClient.Builder(requireActivity())
+                .enableAutoManage(requireActivity(), 0, this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build()
+            mGoogleApiClient!!.connect()
+        } catch (e: Exception) {
+        e.printStackTrace()
+        }
     }
 
 

@@ -18,6 +18,10 @@
             android:id="@+id/bookingFragment"
             android:icon="@drawable/calendar"
             android:title="@string/bookings" />
+        <item
+            android:id="@+id/walletFragment2"
+            android:title="@string/wallet"
+            android:icon="@drawable/ic_baseline_monetization_on_24"/>
     </group>
     <item
         android:id="@+id/change_pass"

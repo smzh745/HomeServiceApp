@@ -64,4 +64,9 @@
             android:name="type"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/walletFragment2"
+        android:name="home.service.appmanage.online.work.fragments.WalletFragment"
+        android:label="@string/wallet"
+        tools:layout="@layout/fragment_wallet" />
 </navigation>

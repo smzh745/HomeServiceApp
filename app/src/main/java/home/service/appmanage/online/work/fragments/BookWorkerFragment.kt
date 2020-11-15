@@ -67,6 +67,16 @@ class BookWorkerFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbac
     ): View? {
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.fragment_book_worker, container, false)
+
+        return root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        init()
+    }
+
+    private fun init() {
         val manager =
             requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
@@ -97,7 +107,6 @@ class BookWorkerFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbac
                 serviceList!![position].subId
             )
         }
-        return root
     }
 
     private fun bookWorker(typeTitle: String, type: String, subId: Int) {
