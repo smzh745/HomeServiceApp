@@ -131,7 +131,7 @@
                 android:padding="@dimen/_5sdp"
                 android:text="@string/not_an_account_register"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/_12ssp" />
+                android:textSize="@dimen/_16ssp" />
 
 
         </LinearLayout>
