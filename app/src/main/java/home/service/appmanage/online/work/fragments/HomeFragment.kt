@@ -43,7 +43,6 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import home.service.appmanage.online.work.R
-import home.service.appmanage.online.work.activities.ChooseWorkerActivity
 import home.service.appmanage.online.work.adapters.ServiceAdapter
 import home.service.appmanage.online.work.models.Service
 import home.service.appmanage.online.work.utils.ClickListener
@@ -155,7 +154,11 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
                     }
                 })
         )
-
+        if (!SharedPrefUtils.getBooleanData(requireActivity(), "isWorker")) {
+            root!!.recyclerView.visibility = View.VISIBLE
+            homeMaintenanceList!!.clear()
+            initUserView()
+        }
         return root
     }
 
@@ -165,11 +168,14 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
             root!!.recyclerView.visibility = View.GONE
             root!!.workerLayout.visibility = View.VISIBLE
             initMap()
-        } else {
-            root!!.recyclerView.visibility = View.VISIBLE
-            initUserView()
         }
+     /*   else {
+            root!!.recyclerView.visibility = View.VISIBLE
+            homeMaintenanceList!!.clear()
+            initUserView()
+        }*/
     }
+
     private fun initMap() {
 
         val manager =
@@ -229,7 +235,6 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
         }
         queue!!.add(postRequest)
     }
-
 
 
     private fun initUserView() {
@@ -408,7 +413,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
                 .build()
             mGoogleApiClient!!.connect()
         } catch (e: Exception) {
-        e.printStackTrace()
+            e.printStackTrace()
         }
     }
 

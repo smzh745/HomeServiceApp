@@ -19,6 +19,7 @@ object Constants {
     const val CHANGE_PASS_USER_URL = ROOT_URL + "changePasswordByApp.php"
     const val CHANGE_PASS_WORKER_URL = ROOT_URL + "changePassWorker.php"
     const val FETCH_BOOKING_URL = ROOT_URL + "fetch_all_bookings_user.php"
+    const val FETCH_WORKER_FARE_URL = ROOT_URL + "/fetch_worker_wallet.php"
     const val REQUEST_CHECK_SETTINGS_GPS = 0x1
     const val PICK_IMAGE = 101
     const val PICK_CAM = 102

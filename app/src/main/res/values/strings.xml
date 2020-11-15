@@ -118,5 +118,8 @@
     <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
     <string name="no_booking_found">No Booking Found!</string>
     <string name="wallet">Wallet</string>
+    <string name="total_balance">Total Balance</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="share">Share</string>
 
 </resources>

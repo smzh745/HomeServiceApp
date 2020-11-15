@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import home.service.appmanage.online.work.R
 import home.service.appmanage.online.work.activities.BaseActivity
 import home.service.appmanage.online.work.activities.PlayVideoActivity
-import home.service.appmanage.online.work.activities.VideoPlayerActivity
 import home.service.appmanage.online.work.models.TypeDetails
 import home.service.appmanage.online.work.utils.Constants.TAGI
 import kotlinx.android.synthetic.main.worker_type_details_layout.view.*
@@ -53,6 +52,12 @@ class TypeDetailsAdapter(
         }
         p0.itemView.view.setOnClickListener {
             openDetails(service, p1)
+        }
+        p0.itemView.viewSample.setOnClickListener {
+            if (service.type.equals(context.getString(R.string.photography_event), true)) {
+                Log.d(TAGI, "onBindViewHolder:nothing ")
+                playVideo(service)
+            }
         }
     }
 

@@ -64,13 +64,27 @@ class MainActivity : BaseActivity() {
                 R.id.bookingFragment,
                 R.id.walletFragment2,
                 R.id.change_pass,
-                R.id.logout
+                R.id.logout,
+                R.id.rateUs,
+                R.id.share
             ), drawer_layout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navigationView.setupWithNavController(navController)
         val logout = navigationView.menu.findItem(R.id.logout)
         val changePasword = navigationView.menu.findItem(R.id.change_pass)
+        val rateUs = navigationView.menu.findItem(R.id.rateUs)
+        val share = navigationView.menu.findItem(R.id.share)
+        rateUs.setOnMenuItemClickListener {
+            closeNavigationDrawer()
+            rateUs()
+            true
+        }
+        share.setOnMenuItemClickListener {
+            closeNavigationDrawer()
+            shareApp()
+            true
+        }
         logout.setOnMenuItemClickListener {
             SharedPrefUtils.saveData(this@MainActivity, "isLoggedIn", false)
             SharedPrefUtils.saveData(this@MainActivity, "isWorker", false)

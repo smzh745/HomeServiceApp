@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
+import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
@@ -100,6 +101,31 @@ open class BaseActivity : AppCompatActivity() {
             } else {
                 updateToken("uid")
             }
+        }
+    }
+    //TODO: rate us
+    fun rateUs() {
+        startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+            )
+        )
+    }
+
+    //TODO: share App
+    fun shareApp() {
+        try {
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            shareIntent.type = "text/plain"
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
+            var shareMessage = "\nLet me recommend you this application\n\n"
+            shareMessage =
+                shareMessage + "https://play.google.com/store/apps/details?id=" + packageName + "\n\n"
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
+            startActivity(Intent.createChooser(shareIntent, "Share via"))
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

@@ -20,8 +20,8 @@
             android:title="@string/bookings" />
         <item
             android:id="@+id/walletFragment2"
-            android:title="@string/wallet"
-            android:icon="@drawable/ic_baseline_monetization_on_24"/>
+            android:icon="@drawable/ic_baseline_monetization_on_24"
+            android:title="@string/wallet" />
     </group>
     <item
         android:id="@+id/change_pass"
@@ -29,6 +29,14 @@
         android:title="@string/change_password" />
     <item
         android:id="@+id/logout"
-        android:icon="@drawable/logout"
+        android:icon="@drawable/ic_baseline_exit_to_app_24"
         android:title="@string/logout" />
+    <item
+        android:id="@+id/rateUs"
+        android:icon="@drawable/ic_baseline_rate_review_24"
+        android:title="@string/rate_us" />
+    <item
+        android:id="@+id/share"
+        android:icon="@drawable/ic_baseline_share_24"
+        android:title="@string/share" />
 </menu>

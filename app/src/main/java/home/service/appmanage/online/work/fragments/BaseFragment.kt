@@ -4,19 +4,26 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Geocoder
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import home.service.appmanage.online.work.R
+import home.service.appmanage.online.work.utils.Constants.FETCH_WORKER_FARE_URL
+import home.service.appmanage.online.work.utils.Constants.TAGI
 import home.service.appmanage.online.work.utils.GPSTracker
+import home.service.appmanage.online.work.utils.SharedPrefUtils
 import kotlinx.android.synthetic.main.layout_loading_dialog.view.*
+import org.json.JSONObject
+import java.util.*
 
 open class BaseFragment : Fragment() {
     var root: View? = null
@@ -29,6 +36,60 @@ open class BaseFragment : Fragment() {
         super.onCreate(savedInstanceState)
         queue = Volley.newRequestQueue(requireActivity())
 
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (SharedPrefUtils.getBooleanData(requireActivity(), "isLoggedIn")) {
+            if (SharedPrefUtils.getBooleanData(requireActivity(), "isWorker")) {
+                loadWorkerFare()
+            }
+        }
+    }
+
+    private fun loadWorkerFare() {
+        val postRequest: StringRequest = object : StringRequest(
+            Method.POST, FETCH_WORKER_FARE_URL,
+            Response.Listener<String?> { response ->
+                // response
+                Log.d(TAGI, response.toString())
+                val jsonObjects = JSONObject(response.toString())
+
+                if (jsonObjects.getInt("status") == 1) {
+                    Log.d(TAGI, "ok status")
+                    val jsonObj = JSONObject(jsonObjects.getString("data"))
+                    Log.d(TAGI, "loadWorkerFare: " + jsonObj.getString("totalFare"))
+                    SharedPrefUtils.saveData(
+                        requireContext(),
+                        "totalFare",
+                        jsonObj.getString("totalFare")
+                    )
+
+                } else {
+                    SharedPrefUtils.saveData(
+                        requireContext(),
+                        "totalFare",
+                        "0"
+                    )
+                }
+            },
+            Response.ErrorListener { error -> // error
+                Log.d(TAGI, "error: " + error!!.message)
+                hideDialog()
+
+            }
+        ) {
+            override fun getParams(): Map<String, String> {
+                val params: MutableMap<String, String> =
+                    HashMap()
+
+                params["wid"] =
+                    SharedPrefUtils.getStringData(requireActivity(), "id").toString()
+                return params
+            }
+        }
+        queue!!.add(postRequest)
     }
 
     fun showToast(toast: String) {
