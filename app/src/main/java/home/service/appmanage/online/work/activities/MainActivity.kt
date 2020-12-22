@@ -1,8 +1,11 @@
-@file:Suppress("LocalVariableName")
+@file:Suppress("LocalVariableName", "UNUSED_ANONYMOUS_PARAMETER")
 
 package home.service.appmanage.online.work.activities
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -75,6 +78,8 @@ class MainActivity : BaseActivity() {
         val changePasword = navigationView.menu.findItem(R.id.change_pass)
         val rateUs = navigationView.menu.findItem(R.id.rateUs)
         val share = navigationView.menu.findItem(R.id.share)
+        val about = navigationView.menu.findItem(R.id.about)
+        val privacypolicy = navigationView.menu.findItem(R.id.privacypolicy)
         rateUs.setOnMenuItemClickListener {
             closeNavigationDrawer()
             rateUs()
@@ -97,21 +102,76 @@ class MainActivity : BaseActivity() {
             changePasswordDialog()
             true
         }
+        about.setOnMenuItemClickListener {
+            closeNavigationDrawer()
+            aboutDialog()
+            true
+        }
+        privacypolicy.setOnMenuItemClickListener {
+            closeNavigationDrawer()
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(getString(R.string.policy_link))
+            startActivity(i)
+            true
+        }
 
         headerView = navigationView.getHeaderView(0)
         if (SharedPrefUtils.getBooleanData(this, "isWorker")) {
-            navigationView.menu.findItem(R.id.bookingFragment).setVisible(false)
+            navigationView.menu.findItem(R.id.bookingFragment).isVisible = false
             headerView!!.name.text = SharedPrefUtils.getStringData(this@MainActivity, "name")
             headerView!!.email.text = SharedPrefUtils.getStringData(this@MainActivity, "email")
             Glide.with(this)
                 .load(UPLOAD_DIRECTORY + SharedPrefUtils.getStringData(this, "profilePic"))
                 .into(headerView!!.profileImage)
+            if (!SharedPrefUtils.getBooleanData(this, "isActivated")) {
+                accountDeactiveDialog()
+            }
         } else {
-            navigationView.menu.findItem(R.id.walletFragment2).setVisible(false)
+            navigationView.menu.findItem(R.id.walletFragment2).isVisible = false
             headerView!!.name.text = SharedPrefUtils.getStringData(this@MainActivity, "name")
             headerView!!.email.text = SharedPrefUtils.getStringData(this@MainActivity, "email")
         }
 
+    }
+
+    private fun aboutDialog() {
+        val builder =
+            MaterialAlertDialogBuilder(this)
+        builder.setTitle("About").setMessage(
+            "Door Man is an online platform that connects professional Workers with Users who need specific services for their homes and offices\n\n We provide best services to our users. \n\n\n" +
+                    "Door Man is a digital platform through which you can connect directly with technicians for any related work that you may need. If you need an electrician, painter, carpenter etc. All services are now one click away. Locate nearby Door Mans and get your work done by Professional Workers. \n\n\n  If you have any query please contact us at: malikawan80801@gmail.com"
+        )
+            .setCancelable(false)
+            .setPositiveButton(
+                getString(R.string.ok)
+            ) { dialog: DialogInterface?, id: Int ->
+                dialog?.dismiss()
+            }
+
+        val alert = builder.create()
+        alert.show()
+    }
+
+    private fun accountDeactiveDialog() {
+        val builder =
+            MaterialAlertDialogBuilder(this)
+        builder.setMessage("Your account is not active. Please try again later!")
+            .setCancelable(false)
+            .setPositiveButton(
+                getString(R.string.cancel)
+            ) { dialog: DialogInterface?, id: Int ->
+                finishAffinity()
+            }.setNegativeButton(
+                getString(R.string.logout)
+            ) { dialog: DialogInterface?, id: Int ->
+                SharedPrefUtils.saveData(this@MainActivity, "isLoggedIn", false)
+                SharedPrefUtils.saveData(this@MainActivity, "isWorker", false)
+                finish()
+                openActivity(ChooseAccountActivity())
+            }
+
+        val alert = builder.create()
+        alert.show()
     }
 
     private fun changePasswordDialog() {

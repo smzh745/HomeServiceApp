@@ -68,10 +68,13 @@ class LoginActivity : BaseActivity() {
                                     response_data.getJSONObject("data").getString("profilepic")
                                 val type: String =
                                     response_data.getJSONObject("data").getString("type")
+                                val isActivated: Boolean =
+                                    response_data.getJSONObject("data").getBoolean("isActivated")
                                 SharedPrefUtils.saveData(this@LoginActivity, "id", id)
                                 SharedPrefUtils.saveData(this@LoginActivity, "name", name)
                                 SharedPrefUtils.saveData(this@LoginActivity, "phone", phone)
                                 SharedPrefUtils.saveData(this@LoginActivity, "email", email)
+                                SharedPrefUtils.saveData(this@LoginActivity, "isActivated", isActivated)
                                 SharedPrefUtils.saveData(
                                     this@LoginActivity,
                                     "isLoggedIn",

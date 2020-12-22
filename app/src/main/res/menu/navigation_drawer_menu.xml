@@ -32,6 +32,14 @@
         android:icon="@drawable/ic_baseline_exit_to_app_24"
         android:title="@string/logout" />
     <item
+        android:id="@+id/about"
+        android:icon="@drawable/ic_baseline_info_24"
+        android:title="@string/about" />
+    <item
+        android:id="@+id/privacypolicy"
+        android:icon="@drawable/ic_baseline_policy_24"
+        android:title="@string/privacy_policy" />
+    <item
         android:id="@+id/rateUs"
         android:icon="@drawable/ic_baseline_rate_review_24"
         android:title="@string/rate_us" />

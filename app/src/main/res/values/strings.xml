@@ -121,5 +121,7 @@
     <string name="total_balance">Total Balance</string>
     <string name="rate_us">Rate Us</string>
     <string name="share">Share</string>
+    <string name="about">About</string>
+    <string name="privacy_policy">Privacy Policy</string>
 
 </resources>

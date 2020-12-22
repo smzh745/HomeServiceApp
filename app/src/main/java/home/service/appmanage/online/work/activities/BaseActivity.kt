@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package home.service.appmanage.online.work.activities
 
 import android.annotation.SuppressLint
@@ -26,6 +28,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.iid.FirebaseInstanceId
 import home.service.appmanage.online.work.R
+import home.service.appmanage.online.work.utils.Constants.CHECK_WORKER_ACTIVE
 import home.service.appmanage.online.work.utils.Constants.TAGI
 import home.service.appmanage.online.work.utils.Constants.UPDATE_TOKEN_URL
 import home.service.appmanage.online.work.utils.GPSTracker
@@ -98,11 +101,55 @@ open class BaseActivity : AppCompatActivity() {
         if (SharedPrefUtils.getBooleanData(this@BaseActivity, "isLoggedIn")) {
             if (SharedPrefUtils.getBooleanData(this, "isWorker")) {
                 updateToken("wid")
+                checkWorkerActive()
             } else {
                 updateToken("uid")
             }
         }
     }
+
+    private fun checkWorkerActive() {
+        val stringRequest: StringRequest =
+            object : StringRequest(
+                Method.POST,
+                CHECK_WORKER_ACTIVE,
+                Response.Listener { response: String ->
+                    try {
+                        try {
+                            val response_data = JSONObject(response)
+                            if (response_data.getString("status") == "1") {
+                                val isActivated: Boolean =
+                                    response_data.getJSONObject("data").getBoolean("isActivated")
+                                SharedPrefUtils.saveData(this@BaseActivity, "isActivated", isActivated)
+
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                },
+                Response.ErrorListener { error: VolleyError ->
+                    Log.d(TAGI, "updateToken: " + error.message)
+                    try {
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            ) {
+                override fun getParams(): Map<String, String> {
+                    val params: MutableMap<String, String> =
+                        HashMap()
+                    params["uid"] = SharedPrefUtils.getStringData(this@BaseActivity, "id").toString()
+                    return params
+                }
+            }
+
+
+        RequestHandler.getInstance(applicationContext).addToRequestQueue(stringRequest)
+    }
+
     //TODO: rate us
     fun rateUs() {
         startActivity(
