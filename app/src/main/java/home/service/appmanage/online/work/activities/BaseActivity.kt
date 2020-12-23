@@ -5,6 +5,7 @@ package home.service.appmanage.online.work.activities
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
@@ -101,14 +102,37 @@ open class BaseActivity : AppCompatActivity() {
         if (SharedPrefUtils.getBooleanData(this@BaseActivity, "isLoggedIn")) {
             if (SharedPrefUtils.getBooleanData(this, "isWorker")) {
                 updateToken("wid")
-                checkWorkerActive()
+
             } else {
                 updateToken("uid")
             }
         }
     }
 
-    private fun checkWorkerActive() {
+    private fun accountDeactiveDialog() {
+        val builder =
+            MaterialAlertDialogBuilder(this)
+        builder.setMessage("Your account is not active. Please try again later!")
+            .setCancelable(false)
+            .setPositiveButton(
+                getString(R.string.cancel)
+            ) { dialog: DialogInterface?, id: Int ->
+                finishAffinity()
+            }.setNegativeButton(
+                getString(R.string.logout)
+            ) { dialog: DialogInterface?, id: Int ->
+                SharedPrefUtils.saveData(this@BaseActivity, "isLoggedIn", false)
+                SharedPrefUtils.saveData(this@BaseActivity, "isWorker", false)
+                finish()
+                openActivity(ChooseAccountActivity())
+            }
+
+        val alert = builder.create()
+        alert.show()
+    }
+
+    fun checkWorkerActive() {
+        showDialog(getString(R.string.loading))
         val stringRequest: StringRequest =
             object : StringRequest(
                 Method.POST,
@@ -118,10 +142,22 @@ open class BaseActivity : AppCompatActivity() {
                         try {
                             val response_data = JSONObject(response)
                             if (response_data.getString("status") == "1") {
+                                Log.d(
+                                    TAGI,
+                                    "checkWorkerActive: " + response_data.getJSONObject("data")
+                                        .getBoolean("isActivated")
+                                )
                                 val isActivated: Boolean =
                                     response_data.getJSONObject("data").getBoolean("isActivated")
-                                SharedPrefUtils.saveData(this@BaseActivity, "isActivated", isActivated)
-
+                                SharedPrefUtils.saveData(
+                                    this@BaseActivity,
+                                    "isActivated",
+                                    isActivated
+                                )
+                                hideDialog()
+                                if (!isActivated) {
+                                    accountDeactiveDialog()
+                                }
                             }
                         } catch (e: JSONException) {
                             e.printStackTrace()
@@ -141,7 +177,8 @@ open class BaseActivity : AppCompatActivity() {
                 override fun getParams(): Map<String, String> {
                     val params: MutableMap<String, String> =
                         HashMap()
-                    params["uid"] = SharedPrefUtils.getStringData(this@BaseActivity, "id").toString()
+                    params["uid"] =
+                        SharedPrefUtils.getStringData(this@BaseActivity, "id").toString()
                     return params
                 }
             }

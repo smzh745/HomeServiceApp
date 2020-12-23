@@ -123,9 +123,9 @@ class MainActivity : BaseActivity() {
             Glide.with(this)
                 .load(UPLOAD_DIRECTORY + SharedPrefUtils.getStringData(this, "profilePic"))
                 .into(headerView!!.profileImage)
-            if (!SharedPrefUtils.getBooleanData(this, "isActivated")) {
-                accountDeactiveDialog()
-            }
+//            if (!SharedPrefUtils.getBooleanData(this, "isActivated")) {
+            checkWorkerActive()
+//            }
         } else {
             navigationView.menu.findItem(R.id.walletFragment2).isVisible = false
             headerView!!.name.text = SharedPrefUtils.getStringData(this@MainActivity, "name")
@@ -152,27 +152,6 @@ class MainActivity : BaseActivity() {
         alert.show()
     }
 
-    private fun accountDeactiveDialog() {
-        val builder =
-            MaterialAlertDialogBuilder(this)
-        builder.setMessage("Your account is not active. Please try again later!")
-            .setCancelable(false)
-            .setPositiveButton(
-                getString(R.string.cancel)
-            ) { dialog: DialogInterface?, id: Int ->
-                finishAffinity()
-            }.setNegativeButton(
-                getString(R.string.logout)
-            ) { dialog: DialogInterface?, id: Int ->
-                SharedPrefUtils.saveData(this@MainActivity, "isLoggedIn", false)
-                SharedPrefUtils.saveData(this@MainActivity, "isWorker", false)
-                finish()
-                openActivity(ChooseAccountActivity())
-            }
-
-        val alert = builder.create()
-        alert.show()
-    }
 
     private fun changePasswordDialog() {
         val factory = LayoutInflater.from(this)

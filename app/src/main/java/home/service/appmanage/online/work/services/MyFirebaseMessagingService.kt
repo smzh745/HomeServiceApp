@@ -81,6 +81,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     "worker_accept"
                 )
 
+            }else if (messageTitle.equals("account_status",true)){
+                sendNotificationMsg(
+                    messageBody.toString(),
+                    rand(1, 100),
+                    action,
+                    data,
+                    "worker_accept"
+                )
             }
 
         }
