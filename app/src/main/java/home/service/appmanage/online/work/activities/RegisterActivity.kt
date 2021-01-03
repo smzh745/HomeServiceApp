@@ -57,7 +57,7 @@ class RegisterActivity : BaseActivity() {
             imageText.text = getString(R.string.cinic_image)
         }
         loginAccount.setOnClickListener {
-            openActivity(LoginActivity(), isUserLogin)
+            openActivity(LoginActivity(), isUserLogin,false)
         }
         register.setOnClickListener {
             if (isUserLogin) {
@@ -96,7 +96,10 @@ class RegisterActivity : BaseActivity() {
                             val obj = JSONObject(resultResponse)
                             Log.d(TAGI, "registerWorker: " + obj.getString("message"))
                             showToast(obj.getString("message"))
-                            openActivity(LoginActivity(), false)
+                            openActivity(LoginActivity(),
+                                isUserLogin = false,
+                                isDriverLogin = false
+                            )
 
                             finish()
                             showToast("Use the same email account for login")
@@ -188,7 +191,7 @@ class RegisterActivity : BaseActivity() {
                     )
                     if (jsonObjects.getInt("status") == 1) {
                         Log.d(TAGI, "ok status")
-                        openActivity(LoginActivity(), true)
+                        openActivity(LoginActivity(), isUserLogin = true, isDriverLogin = false)
 
                         finish()
                         showToast("Use the same email account for login")

@@ -26,10 +26,14 @@ class ChooseAccountActivity : BaseActivity() {
         }
 
         user1.setOnClickListener {
-            openActivity(LoginActivity(), true)
+            openActivity(LoginActivity(), true, false)
         }
         partner.setOnClickListener {
-            openActivity(LoginActivity(), false)
+            openActivity(LoginActivity(), false, false)
+
+        }
+        driverr.setOnClickListener {
+            openActivity(LoginActivity(), false, true)
 
         }
     }

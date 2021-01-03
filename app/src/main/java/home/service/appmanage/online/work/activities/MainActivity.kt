@@ -80,6 +80,7 @@ class MainActivity : BaseActivity() {
         val share = navigationView.menu.findItem(R.id.share)
         val about = navigationView.menu.findItem(R.id.about)
         val privacypolicy = navigationView.menu.findItem(R.id.privacypolicy)
+        val helpline = navigationView.menu.findItem(R.id.helpline)
         rateUs.setOnMenuItemClickListener {
             closeNavigationDrawer()
             rateUs()
@@ -114,6 +115,11 @@ class MainActivity : BaseActivity() {
             startActivity(i)
             true
         }
+        helpline.setOnMenuItemClickListener {
+            closeNavigationDrawer()
+            helpLineDialog()
+            true
+        }
 
         headerView = navigationView.getHeaderView(0)
         if (SharedPrefUtils.getBooleanData(this, "isWorker")) {
@@ -132,6 +138,31 @@ class MainActivity : BaseActivity() {
             headerView!!.email.text = SharedPrefUtils.getStringData(this@MainActivity, "email")
         }
 
+    }
+
+    private fun helpLineDialog() {
+        val builder =
+            MaterialAlertDialogBuilder(this)
+        builder.setTitle(getString(R.string.helpline)).setMessage(
+            "For any query or feedback Please call us!" +
+                    "\n Remember that: Helpline service is only available between 9 am to 8 pm."
+        )
+            .setCancelable(false)
+            .setPositiveButton(
+                getString(R.string.call)
+            ) { dialog: DialogInterface?, id: Int ->
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = Uri.parse("tel:" + getString(R.string._92317558327))
+                startActivity(intent)
+                dialog?.dismiss()
+            }.setNegativeButton(
+                getString(R.string.cancel)
+            ) { dialog: DialogInterface?, id: Int ->
+                dialog?.dismiss()
+            }
+
+        val alert = builder.create()
+        alert.show()
     }
 
     private fun aboutDialog() {

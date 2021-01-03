@@ -21,13 +21,18 @@ class LoginActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         isUserLogin = intent.getBooleanExtra("isUserLogin", false)
+        isDriverLogin = intent.getBooleanExtra("isDriverLogin", false)
         if (isUserLogin) {
             loginTitle.text = getString(R.string.login_user)
         } else {
             loginTitle.text = getString(R.string.login_partner)
         }
+        if (isDriverLogin) {
+            loginTitle.text = getString(R.string.login_driver)
+
+        }
         registerAccount.setOnClickListener {
-            openActivity(RegisterActivity(), isUserLogin)
+            openActivity(RegisterActivity(), isUserLogin, false)
         }
 
         login.setOnClickListener {
@@ -74,7 +79,11 @@ class LoginActivity : BaseActivity() {
                                 SharedPrefUtils.saveData(this@LoginActivity, "name", name)
                                 SharedPrefUtils.saveData(this@LoginActivity, "phone", phone)
                                 SharedPrefUtils.saveData(this@LoginActivity, "email", email)
-                                SharedPrefUtils.saveData(this@LoginActivity, "isActivated", isActivated)
+                                SharedPrefUtils.saveData(
+                                    this@LoginActivity,
+                                    "isActivated",
+                                    isActivated
+                                )
                                 SharedPrefUtils.saveData(
                                     this@LoginActivity,
                                     "isLoggedIn",

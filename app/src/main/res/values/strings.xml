@@ -5,6 +5,7 @@
     <string name="user">User</string>
     <string name="login_user">Login - User</string>
     <string name="login_partner">Login - Worker</string>
+    <string name="login_driver">Login - Driver</string>
     <string name="enter_password">Enter Password</string>
     <string name="enter_email">Enter Email</string>
     <string name="login">Login</string>
@@ -44,7 +45,7 @@
         <item>Carpenter</item>
         <!--        <item>Painter</item>-->
         <item>Barber</item>
-        <item>Photography / Event</item>
+<!--        <item>Photography / Event</item>-->
         <!--        <item>Laundry</item>//home maintenance-->
         <!--        <item>CCTV Camera Installation</item> //other-->
     </string-array>
@@ -95,7 +96,7 @@
     <string name="worker_name">Worker Name</string>
     <string name="worker_location">Worker Location</string>
     <string name="to_book_any_event_or_photography_from_below_list_contact_on_this_number">To book any event or photography from below list, Contact on this number:</string>
-    <string name="_92317558327">+92317558327</string>
+    <string name="_92317558327">+923175582327</string>
     <string name="end">End</string>
     <string name="ending_work">Ending Work…</string>
     <string name="note_as_we_work_on_your_requirements_and_details_provided_in_the_list_may_change_accorrding_to_demand_and_work">Note: As we work on your requirements and details provided in the list may change accorrding to demand and work.</string>
@@ -123,5 +124,11 @@
     <string name="share">Share</string>
     <string name="about">About</string>
     <string name="privacy_policy">Privacy Policy</string>
+    <string name="helpline">HelpLine</string>
+    <string name="call">Call</string>
+    <string name="driver">Driver</string>
+    <string name="earn_by_becoming_a_driver">Earn by becoming a driver</string>
+    <string name="earn_by_becoming_a_worker">Earn by becoming a worker</string>
+    <string name="get_by_using_these_services">Get started by using services</string>
 
 </resources>

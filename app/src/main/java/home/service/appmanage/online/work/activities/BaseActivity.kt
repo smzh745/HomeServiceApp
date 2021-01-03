@@ -45,6 +45,7 @@ import java.util.*
 
 open class BaseActivity : AppCompatActivity() {
     var isUserLogin: Boolean = false
+    var isDriverLogin: Boolean = false
     var queue: RequestQueue? = null
     private var dialog: AlertDialog? = null
     var geocoder: Geocoder? = null
@@ -262,9 +263,10 @@ open class BaseActivity : AppCompatActivity() {
         finish()
     }
 
-    fun openActivity(activity: Activity, isUserLogin: Boolean) {
+    fun openActivity(activity: Activity, isUserLogin: Boolean, isDriverLogin: Boolean) {
         val intent = Intent(this@BaseActivity, activity.javaClass)
         intent.putExtra("isUserLogin", isUserLogin)
+        intent.putExtra("isDriverLogin", isDriverLogin)
         startActivity(intent)
     }
 

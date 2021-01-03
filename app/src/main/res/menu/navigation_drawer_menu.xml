@@ -40,6 +40,10 @@
         android:icon="@drawable/ic_baseline_policy_24"
         android:title="@string/privacy_policy" />
     <item
+        android:id="@+id/helpline"
+        android:icon="@drawable/ic_baseline_help_center_24"
+        android:title="@string/helpline" />
+    <item
         android:id="@+id/rateUs"
         android:icon="@drawable/ic_baseline_rate_review_24"
         android:title="@string/rate_us" />

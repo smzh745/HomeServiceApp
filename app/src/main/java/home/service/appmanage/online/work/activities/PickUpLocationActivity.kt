@@ -370,7 +370,7 @@ class PickUpLocationActivity : BaseActivity(), OnMapReadyCallback, ConnectionCal
 
                     if (jsonObjects.getInt("status") == 1) {
                         Log.d(TAGI, "ok status")
-                        openActivity(LoginActivity(), true)
+                        openActivity(LoginActivity(), isUserLogin = true, isDriverLogin = false)
 
                         finish()
                         showToast("Use the same email account for login")
