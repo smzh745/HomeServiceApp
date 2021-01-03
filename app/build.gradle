@@ -73,5 +73,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:21.0.0'
     implementation 'com.google.android.exoplayer:exoplayer:2.9.6'
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
-
+    implementation 'org.slf4j:slf4j-nop:1.7.25'
 }
