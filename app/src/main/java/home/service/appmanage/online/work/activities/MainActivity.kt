@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -25,6 +26,8 @@ import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import home.service.appmanage.online.work.R
+import home.service.appmanage.online.work.utils.Constants
+import home.service.appmanage.online.work.utils.Constants.CHANGE_PASS_DRIVER_URL
 import home.service.appmanage.online.work.utils.Constants.CHANGE_PASS_USER_URL
 import home.service.appmanage.online.work.utils.Constants.CHANGE_PASS_WORKER_URL
 import home.service.appmanage.online.work.utils.Constants.UPLOAD_DIRECTORY
@@ -95,6 +98,7 @@ class MainActivity : BaseActivity() {
             logout.setOnMenuItemClickListener {
                 SharedPrefUtils.saveData(this@MainActivity, "isLoggedIn", false)
                 SharedPrefUtils.saveData(this@MainActivity, "isWorker", false)
+                SharedPrefUtils.saveData(this@MainActivity, "isDriver", false)
                 finish()
                 openActivity(ChooseAccountActivity())
                 true
@@ -123,7 +127,8 @@ class MainActivity : BaseActivity() {
             }
 
             headerView = navigationView.getHeaderView(0)
-            if (SharedPrefUtils.getBooleanData(this, "isWorker")) {
+            if (SharedPrefUtils.getBooleanData(this, "isWorker")
+            ) {
                 navigationView.menu.findItem(R.id.bookingFragment).isVisible = false
                 headerView!!.name.text = SharedPrefUtils.getStringData(this@MainActivity, "name")
                 headerView!!.email.text = SharedPrefUtils.getStringData(this@MainActivity, "email")
@@ -132,6 +137,21 @@ class MainActivity : BaseActivity() {
                     .into(headerView!!.profileImage)
                 //            if (!SharedPrefUtils.getBooleanData(this, "isActivated")) {
                 checkWorkerActive()
+                //            }
+            } else if (SharedPrefUtils.getBooleanData(
+                    this,
+                    "isDriver"
+                )
+            ) {
+                navigationView.menu.findItem(R.id.bookingFragment).isVisible = false
+                headerView!!.name.text = SharedPrefUtils.getStringData(this@MainActivity, "name")
+                headerView!!.email.text = SharedPrefUtils.getStringData(this@MainActivity, "email")
+                Glide.with(this)
+                    .load(UPLOAD_DIRECTORY + SharedPrefUtils.getStringData(this, "profilePic"))
+                    .into(headerView!!.profileImage)
+                //            if (!SharedPrefUtils.getBooleanData(this, "isActivated")) {
+//                checkWorkerActive()
+                checkDriverActive()
                 //            }
             } else {
                 navigationView.menu.findItem(R.id.walletFragment2).isVisible = false
@@ -143,6 +163,7 @@ class MainActivity : BaseActivity() {
         }
 
     }
+
 
     private fun helpLineDialog() {
         val builder =
@@ -211,6 +232,12 @@ class MainActivity : BaseActivity() {
                         deleteDialogView.pass.text.toString(),
                         deleteDialogView.oldPass.text.toString(),
                         CHANGE_PASS_WORKER_URL, deleteDialog
+                    )
+                } else if (SharedPrefUtils.getBooleanData(this, "isDriver")) {
+                    changePasswordUrl(
+                        deleteDialogView.pass.text.toString(),
+                        deleteDialogView.oldPass.text.toString(),
+                        CHANGE_PASS_DRIVER_URL, deleteDialog
                     )
                 } else {
                     changePasswordUrl(

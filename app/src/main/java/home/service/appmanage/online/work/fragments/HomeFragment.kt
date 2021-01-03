@@ -43,6 +43,7 @@ import home.service.appmanage.online.work.R
 import home.service.appmanage.online.work.adapters.ServiceAdapter
 import home.service.appmanage.online.work.models.Service
 import home.service.appmanage.online.work.utils.ClickListener
+import home.service.appmanage.online.work.utils.Constants.ADD_LOCATION_DRIVER
 import home.service.appmanage.online.work.utils.Constants.ADD_LOCATION_WORKER
 import home.service.appmanage.online.work.utils.Constants.REQUEST_CHECK_SETTINGS_GPS
 import home.service.appmanage.online.work.utils.Constants.TAGI
@@ -164,7 +165,11 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
                     }
                 })
         )
-        if (!SharedPrefUtils.getBooleanData(requireActivity(), "isWorker")) {
+        if (!SharedPrefUtils.getBooleanData(
+                requireActivity(),
+                "isWorker"
+            ) || !SharedPrefUtils.getBooleanData(requireActivity(), "isDriver")
+        ) {
             root!!.recyclerView.visibility = View.VISIBLE
             homeMaintenanceList!!.clear()
             initUserView()
@@ -174,7 +179,11 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
 
     override fun onResume() {
         super.onResume()
-        if (SharedPrefUtils.getBooleanData(requireActivity(), "isWorker")) {
+        if (SharedPrefUtils.getBooleanData(
+                requireActivity(),
+                "isWorker"
+            ) || SharedPrefUtils.getBooleanData(requireActivity(), "isDriver")
+        ) {
             root!!.recyclerView.visibility = View.GONE
             root!!.workerLayout.visibility = View.VISIBLE
             initMap()
@@ -206,8 +215,48 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
 
         geocoder = Geocoder(requireActivity(), Locale.getDefault())
         root!!.proceed.setOnClickListener {
-            setWorkerLocation()
+            if (SharedPrefUtils.getBooleanData(requireContext(), "isWorker")) {
+                setWorkerLocation()
+            } else {
+                setDriverLocation()
+            }
         }
+    }
+
+    private fun setDriverLocation() {
+        showDialog(getString(R.string.saving_location))
+        val postRequest: StringRequest = object : StringRequest(
+            Method.POST, ADD_LOCATION_DRIVER,
+            Response.Listener<String?> { response ->
+                // response
+                Log.d(TAGI, response.toString())
+                val jsonObjects = JSONObject(response.toString())
+
+                if (jsonObjects.getInt("status") == 1) {
+                    Log.d(TAGI, "ok status")
+
+                    showToast(jsonObjects.getString("data"))
+                } else if (jsonObjects.getInt("status") == 0) {
+                    showToast(jsonObjects.getString("data"))
+                }
+                hideDialog()
+            },
+            Response.ErrorListener { error -> // error
+                Log.d(TAGI, "error: " + error!!.message)
+                hideDialog()
+            }
+        ) {
+            override fun getParams(): Map<String, String> {
+                val params: MutableMap<String, String> =
+                    HashMap()
+                params["uid"] =
+                    SharedPrefUtils.getStringData(requireActivity(), "id").toString()
+                params["longi"] = longi.toString()
+                params["lati"] = lat.toString()
+                return params
+            }
+        }
+        queue!!.add(postRequest)
     }
 
     private fun setWorkerLocation() {
@@ -304,7 +353,6 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
               )*/
         return homeMaintenanceList!!
     }
-
 
 
     override fun onMapReady(googleMap: GoogleMap) {

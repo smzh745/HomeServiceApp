@@ -24,6 +24,24 @@ class VechicleCategoryFragment : BaseFragment() {
                 getString(R.string.bike)
             )
         }
+        root!!.go1.setOnClickListener {
+            navigateFragmentbyType(
+                R.id.bookDriverFragment,
+                getString(R.string.go)
+            )
+        }
+        root!!.goMini.setOnClickListener {
+            navigateFragmentbyType(
+                R.id.bookDriverFragment,
+                getString(R.string.go_mini)
+            )
+        }
+        root!!.goPlus.setOnClickListener {
+            navigateFragmentbyType(
+                R.id.bookDriverFragment,
+                getString(R.string.go_)
+            )
+        }
         return root
     }
 

@@ -7,8 +7,10 @@ object Constants {
     const val REGISTER_USER = ROOT_URL + "register_user.php"
     const val ADD_LOCATION_USER = ROOT_URL + "add_location_user.php"
     const val ADD_LOCATION_WORKER = ROOT_URL + "add_location_worker.php"
+    const val ADD_LOCATION_DRIVER = ROOT_URL + "add_location_driver.php"
     const val LOGIN_USER_URL = ROOT_URL + "user_login.php"
     const val LOGIN_WORKER_URL = ROOT_URL + "worker_login.php"
+    const val LOGIN_DRIVER_URL = ROOT_URL + "driver_login.php"
     const val UPDATE_TOKEN_URL = ROOT_URL + "update_token_login_status_worker.php"
     const val BOOK_WORKER_URL = ROOT_URL + "set_worker_booking.php"
     const val ACCEPT_WORKER_URL = ROOT_URL + "accept_worker_request.php"
@@ -18,9 +20,11 @@ object Constants {
     const val END_WORK_URL = ROOT_URL + "end_work.php"
     const val CHANGE_PASS_USER_URL = ROOT_URL + "changePasswordByApp.php"
     const val CHANGE_PASS_WORKER_URL = ROOT_URL + "changePassWorker.php"
+    const val CHANGE_PASS_DRIVER_URL = ROOT_URL + "changePasswordDriver.php"
     const val FETCH_BOOKING_URL = ROOT_URL + "fetch_all_bookings_user.php"
     const val FETCH_WORKER_FARE_URL = ROOT_URL + "fetch_worker_wallet.php"
     const val CHECK_WORKER_ACTIVE = ROOT_URL + "check_worker_activated.php"
+    const val CHECK_DRIVER_ACTIVE = ROOT_URL + "check_driver_activated.php"
     const val REQUEST_CHECK_SETTINGS_GPS = 0x1
     const val PICK_IMAGE = 101
     const val PICK_CAM = 102

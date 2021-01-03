@@ -8,6 +8,7 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import home.service.appmanage.online.work.utils.SharedPrefUtils
 import home.service.appmanage.online.work.R
+import home.service.appmanage.online.work.utils.Constants.LOGIN_DRIVER_URL
 import home.service.appmanage.online.work.utils.Constants.LOGIN_USER_URL
 import home.service.appmanage.online.work.utils.Constants.LOGIN_WORKER_URL
 import home.service.appmanage.online.work.utils.RequestHandler
@@ -47,11 +48,92 @@ class LoginActivity : BaseActivity() {
             } else {
                 if (isUserLogin) {
                     loginUser()
+                } else if (isDriverLogin) {
+                    loginDriver()
                 } else {
                     loginWorker()
                 }
             }
         }
+    }
+
+    private fun loginDriver() {
+        showDialog(getString(R.string.authenticating_user))
+        val stringRequest: StringRequest =
+            object : StringRequest(Method.POST, LOGIN_DRIVER_URL, Response.Listener { response: String ->
+                    try {
+                        try {
+                            val response_data = JSONObject(response)
+                            if (response_data.getString("status") == "1") {
+                                val id: String =
+                                    response_data.getJSONObject("data").getString("id")
+                                val name: String =
+                                    response_data.getJSONObject("data").getString("name")
+                                val phone: String =
+                                    response_data.getJSONObject("data").getString("phone")
+                                val email: String =
+                                    response_data.getJSONObject("data").getString("email")
+                                val profilePic: String =
+                                    response_data.getJSONObject("data").getString("profilepic")
+                                val type: String =
+                                    response_data.getJSONObject("data").getString("type")
+                                val isActivated: Boolean =
+                                    response_data.getJSONObject("data").getBoolean("isActivated")
+                                SharedPrefUtils.saveData(this@LoginActivity, "id", id)
+                                SharedPrefUtils.saveData(this@LoginActivity, "name", name)
+                                SharedPrefUtils.saveData(this@LoginActivity, "phone", phone)
+                                SharedPrefUtils.saveData(this@LoginActivity, "email", email)
+                                SharedPrefUtils.saveData(
+                                    this@LoginActivity,
+                                    "isActivated",
+                                    isActivated
+                                )
+                                SharedPrefUtils.saveData(
+                                    this@LoginActivity,
+                                    "isLoggedIn",
+                                    response_data.getJSONObject("data").getBoolean("isLoggedIn")
+                                )
+                                SharedPrefUtils.saveData(
+                                    this@LoginActivity,
+                                    "profilePic",
+                                    profilePic
+                                )
+                                SharedPrefUtils.saveData(this@LoginActivity, "type", type)
+                                SharedPrefUtils.saveData(this@LoginActivity, "isDriver", true)
+                                openActivity(MainActivity())
+                                finish()
+                            } else {
+                                showToast(response_data.getString("data"))
+                            }
+                            hideDialog()
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                            hideDialog()
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                },
+                Response.ErrorListener { error: VolleyError ->
+                    try {
+                        hideDialog()
+                        showToast(error.message!!)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            ) {
+                override fun getParams(): Map<String, String> {
+                    val params: MutableMap<String, String> =
+                        HashMap()
+                    params["email"] = email.text.toString()
+                    params["password"] = password.text.toString()
+                    return params
+                }
+            }
+
+
+        RequestHandler.getInstance(applicationContext).addToRequestQueue(stringRequest)
     }
 
     private fun loginWorker() {

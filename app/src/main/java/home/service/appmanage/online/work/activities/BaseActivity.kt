@@ -29,6 +29,8 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.iid.FirebaseInstanceId
 import home.service.appmanage.online.work.R
+import home.service.appmanage.online.work.utils.Constants
+import home.service.appmanage.online.work.utils.Constants.CHECK_DRIVER_ACTIVE
 import home.service.appmanage.online.work.utils.Constants.CHECK_WORKER_ACTIVE
 import home.service.appmanage.online.work.utils.Constants.TAGI
 import home.service.appmanage.online.work.utils.Constants.UPDATE_TOKEN_URL
@@ -104,6 +106,9 @@ open class BaseActivity : AppCompatActivity() {
             if (SharedPrefUtils.getBooleanData(this, "isWorker")) {
                 updateToken("wid")
 
+            } else if (SharedPrefUtils.getBooleanData(this, "isDriver")) {
+                updateToken("did")
+
             } else {
                 updateToken("uid")
             }
@@ -124,12 +129,69 @@ open class BaseActivity : AppCompatActivity() {
             ) { dialog: DialogInterface?, id: Int ->
                 SharedPrefUtils.saveData(this@BaseActivity, "isLoggedIn", false)
                 SharedPrefUtils.saveData(this@BaseActivity, "isWorker", false)
+                SharedPrefUtils.saveData(this@BaseActivity, "isDriver", false)
                 finish()
                 openActivity(ChooseAccountActivity())
             }
 
         val alert = builder.create()
         alert.show()
+    }
+
+    fun checkDriverActive() {
+        showDialog(getString(R.string.loading))
+        val stringRequest: StringRequest =
+            object : StringRequest(
+                Method.POST,
+                CHECK_DRIVER_ACTIVE,
+                Response.Listener { response: String ->
+                    try {
+                        try {
+                            val response_data = JSONObject(response)
+                            if (response_data.getString("status") == "1") {
+                                Log.d(
+                                    Constants.TAGI,
+                                    "checkWorkerActive: " + response_data.getJSONObject("data")
+                                        .getBoolean("isActivated")
+                                )
+                                val isActivated: Boolean =
+                                    response_data.getJSONObject("data").getBoolean("isActivated")
+                                SharedPrefUtils.saveData(
+                                    this@BaseActivity,
+                                    "isActivated",
+                                    isActivated
+                                )
+                                hideDialog()
+                                if (!isActivated) {
+                                    accountDeactiveDialog()
+                                }
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                },
+                Response.ErrorListener { error: VolleyError ->
+                    Log.d(Constants.TAGI, "updateToken: " + error.message)
+                    try {
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            ) {
+                override fun getParams(): Map<String, String> {
+                    val params: MutableMap<String, String> =
+                        HashMap()
+                    params["uid"] =
+                        SharedPrefUtils.getStringData(this@BaseActivity, "id").toString()
+                    return params
+                }
+            }
+
+
+        RequestHandler.getInstance(applicationContext).addToRequestQueue(stringRequest)
     }
 
     fun checkWorkerActive() {
