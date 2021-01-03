@@ -45,9 +45,16 @@
         <item>Carpenter</item>
         <!--        <item>Painter</item>-->
         <item>Barber</item>
-<!--        <item>Photography / Event</item>-->
+        <!--        <item>Photography / Event</item>-->
         <!--        <item>Laundry</item>//home maintenance-->
         <!--        <item>CCTV Camera Installation</item> //other-->
+    </string-array>
+    <string-array name="driver_array">
+        <item>Driver Type</item>
+        <item>Go+</item>
+        <item>Go Mini</item>
+        <item>Go</item>
+        <item>Bike</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -130,5 +137,15 @@
     <string name="earn_by_becoming_a_driver">Earn by becoming a driver</string>
     <string name="earn_by_becoming_a_worker">Earn by becoming a worker</string>
     <string name="get_by_using_these_services">Get started by using services</string>
+    <string name="signup_driver">SignUp - Driver</string>
+    <string name="enter_age">Enter Age</string>
+    <string name="enter_father_name">Enter Father Name</string>
+    <string name="enter_address">Enter Address</string>
+    <string name="enter_car_color">Enter Car Color</string>
+    <string name="enter_car_number">Enter Car Number</string>
+    <string name="enter_car_engine_number">Enter Car Engine Number</string>
+    <string name="car_copy">Car Copy</string>
+    <string name="license_image">License Image</string>
+    <string name="enter_license_number">Enter License Number</string>
 
 </resources>

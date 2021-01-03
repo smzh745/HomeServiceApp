@@ -48,94 +48,98 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if (!SharedPrefUtils.getBooleanData(this@MainActivity, "isLoggedIn")) {
-            openActivity(ChooseAccountActivity())
-        }
+        try {
+            if (!SharedPrefUtils.getBooleanData(this@MainActivity, "isLoggedIn")) {
+                openActivity(ChooseAccountActivity())
+            }
 
 
-        setSupportActionBar(toolbar)
-        val navigationView = findViewById<NavigationView>(R.id.nav_view)
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.homeFragment,
-                R.id.ratesFragment,
-                R.id.bookingFragment,
-                R.id.walletFragment2,
-                R.id.change_pass,
-                R.id.logout,
-                R.id.rateUs,
-                R.id.share
-            ), drawer_layout
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navigationView.setupWithNavController(navController)
-        val logout = navigationView.menu.findItem(R.id.logout)
-        val changePasword = navigationView.menu.findItem(R.id.change_pass)
-        val rateUs = navigationView.menu.findItem(R.id.rateUs)
-        val share = navigationView.menu.findItem(R.id.share)
-        val about = navigationView.menu.findItem(R.id.about)
-        val privacypolicy = navigationView.menu.findItem(R.id.privacypolicy)
-        val helpline = navigationView.menu.findItem(R.id.helpline)
-        rateUs.setOnMenuItemClickListener {
-            closeNavigationDrawer()
-            rateUs()
-            true
-        }
-        share.setOnMenuItemClickListener {
-            closeNavigationDrawer()
-            shareApp()
-            true
-        }
-        logout.setOnMenuItemClickListener {
-            SharedPrefUtils.saveData(this@MainActivity, "isLoggedIn", false)
-            SharedPrefUtils.saveData(this@MainActivity, "isWorker", false)
-            finish()
-            openActivity(ChooseAccountActivity())
-            true
-        }
-        changePasword.setOnMenuItemClickListener {
-            closeNavigationDrawer()
-            changePasswordDialog()
-            true
-        }
-        about.setOnMenuItemClickListener {
-            closeNavigationDrawer()
-            aboutDialog()
-            true
-        }
-        privacypolicy.setOnMenuItemClickListener {
-            closeNavigationDrawer()
-            val i = Intent(Intent.ACTION_VIEW)
-            i.data = Uri.parse(getString(R.string.policy_link))
-            startActivity(i)
-            true
-        }
-        helpline.setOnMenuItemClickListener {
-            closeNavigationDrawer()
-            helpLineDialog()
-            true
-        }
+            setSupportActionBar(toolbar)
+            val navigationView = findViewById<NavigationView>(R.id.nav_view)
+            val navHostFragment =
+                supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+            val navController = navHostFragment.navController
+            // Passing each menu ID as a set of Ids because each
+            // menu should be considered as top level destinations.
+            appBarConfiguration = AppBarConfiguration(
+                setOf(
+                    R.id.homeFragment,
+                    R.id.ratesFragment,
+                    R.id.bookingFragment,
+                    R.id.walletFragment2,
+                    R.id.change_pass,
+                    R.id.logout,
+                    R.id.rateUs,
+                    R.id.share
+                ), drawer_layout
+            )
+            setupActionBarWithNavController(navController, appBarConfiguration)
+            navigationView.setupWithNavController(navController)
+            val logout = navigationView.menu.findItem(R.id.logout)
+            val changePasword = navigationView.menu.findItem(R.id.change_pass)
+            val rateUs = navigationView.menu.findItem(R.id.rateUs)
+            val share = navigationView.menu.findItem(R.id.share)
+            val about = navigationView.menu.findItem(R.id.about)
+            val privacypolicy = navigationView.menu.findItem(R.id.privacypolicy)
+            val helpline = navigationView.menu.findItem(R.id.helpline)
+            rateUs.setOnMenuItemClickListener {
+                closeNavigationDrawer()
+                rateUs()
+                true
+            }
+            share.setOnMenuItemClickListener {
+                closeNavigationDrawer()
+                shareApp()
+                true
+            }
+            logout.setOnMenuItemClickListener {
+                SharedPrefUtils.saveData(this@MainActivity, "isLoggedIn", false)
+                SharedPrefUtils.saveData(this@MainActivity, "isWorker", false)
+                finish()
+                openActivity(ChooseAccountActivity())
+                true
+            }
+            changePasword.setOnMenuItemClickListener {
+                closeNavigationDrawer()
+                changePasswordDialog()
+                true
+            }
+            about.setOnMenuItemClickListener {
+                closeNavigationDrawer()
+                aboutDialog()
+                true
+            }
+            privacypolicy.setOnMenuItemClickListener {
+                closeNavigationDrawer()
+                val i = Intent(Intent.ACTION_VIEW)
+                i.data = Uri.parse(getString(R.string.policy_link))
+                startActivity(i)
+                true
+            }
+            helpline.setOnMenuItemClickListener {
+                closeNavigationDrawer()
+                helpLineDialog()
+                true
+            }
 
-        headerView = navigationView.getHeaderView(0)
-        if (SharedPrefUtils.getBooleanData(this, "isWorker")) {
-            navigationView.menu.findItem(R.id.bookingFragment).isVisible = false
-            headerView!!.name.text = SharedPrefUtils.getStringData(this@MainActivity, "name")
-            headerView!!.email.text = SharedPrefUtils.getStringData(this@MainActivity, "email")
-            Glide.with(this)
-                .load(UPLOAD_DIRECTORY + SharedPrefUtils.getStringData(this, "profilePic"))
-                .into(headerView!!.profileImage)
-//            if (!SharedPrefUtils.getBooleanData(this, "isActivated")) {
-            checkWorkerActive()
-//            }
-        } else {
-            navigationView.menu.findItem(R.id.walletFragment2).isVisible = false
-            headerView!!.name.text = SharedPrefUtils.getStringData(this@MainActivity, "name")
-            headerView!!.email.text = SharedPrefUtils.getStringData(this@MainActivity, "email")
+            headerView = navigationView.getHeaderView(0)
+            if (SharedPrefUtils.getBooleanData(this, "isWorker")) {
+                navigationView.menu.findItem(R.id.bookingFragment).isVisible = false
+                headerView!!.name.text = SharedPrefUtils.getStringData(this@MainActivity, "name")
+                headerView!!.email.text = SharedPrefUtils.getStringData(this@MainActivity, "email")
+                Glide.with(this)
+                    .load(UPLOAD_DIRECTORY + SharedPrefUtils.getStringData(this, "profilePic"))
+                    .into(headerView!!.profileImage)
+                //            if (!SharedPrefUtils.getBooleanData(this, "isActivated")) {
+                checkWorkerActive()
+                //            }
+            } else {
+                navigationView.menu.findItem(R.id.walletFragment2).isVisible = false
+                headerView!!.name.text = SharedPrefUtils.getStringData(this@MainActivity, "name")
+                headerView!!.email.text = SharedPrefUtils.getStringData(this@MainActivity, "email")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
 
     }

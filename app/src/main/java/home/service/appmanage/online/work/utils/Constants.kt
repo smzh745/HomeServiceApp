@@ -26,6 +26,12 @@ object Constants {
     const val PICK_CAM = 102
     const val PICK_IMAGE1 = 201
     const val PICK_CAM1 = 202
+    const val PICK_IMAGE2 = 301
+    const val PICK_CAM2 = 302
+    const val PICK_IMAGE3 = 401
+    const val PICK_CAM3 = 402
     const val WORKER_ADD_PAGE = "register_worker.php?apicall="
     const val WORKER_ADD_URL = ROOT_URL + WORKER_ADD_PAGE + "uploadpic"
+    const val DRIVER_ADD_PAGE = "register_driver.php?apicall="
+    const val DRIVER_ADD_URL = ROOT_URL + DRIVER_ADD_PAGE + "uploadpic"
 }

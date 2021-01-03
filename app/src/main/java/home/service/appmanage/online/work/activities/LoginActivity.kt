@@ -32,7 +32,11 @@ class LoginActivity : BaseActivity() {
 
         }
         registerAccount.setOnClickListener {
-            openActivity(RegisterActivity(), isUserLogin, false)
+            if (isDriverLogin) {
+                openActivity(RegisterDriverActivity())
+            } else {
+                openActivity(RegisterActivity(), isUserLogin, false)
+            }
         }
 
         login.setOnClickListener {
