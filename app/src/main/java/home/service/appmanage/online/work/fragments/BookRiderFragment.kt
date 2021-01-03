@@ -74,7 +74,7 @@ class BookRiderFragment : BaseFragment(), OnMapReadyCallback {
         descLoc!!.longitude = splitterDesc[1].toDouble()
         Log.d(TAGI, "onCreateView: " + getTimeTaken(sourceLoc!!, descLoc!!))
         root!!.estimatedTime.text =
-            "Estimated Time to reach: " + getTimeTaken(sourceLoc!!, descLoc!!)
+            "Estimated Time to reach destination: " + getTimeTaken(sourceLoc!!, descLoc!!)
         root!!.vehicleType.text = rideType
         setEstimatePrice()
         showDialog("Loading Map..")
