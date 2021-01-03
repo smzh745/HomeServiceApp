@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".fragments.ConfirmDopOffFragment">
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -26,7 +25,7 @@
                 android:layout_margin="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:padding="@dimen/_5sdp"
-                android:text="@string/where_you_want_to_go"
+                android:text="@string/confirm_pickup_location"
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold" />
@@ -87,7 +86,7 @@
                     android:layout_margin="@dimen/_5sdp"
                     android:gravity="center"
                     android:padding="@dimen/_5sdp"
-                    android:text="@string/where_you_want_to_go"
+                    android:text="@string/confirm_pickup_location"
                     android:textAlignment="center"
                     android:textColor="@color/colorText"
                     android:textSize="@dimen/_14ssp"
@@ -108,13 +107,13 @@
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/proceed"
+                android:id="@+id/proceed2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/_10sdp"
                 android:gravity="center"
-                android:text="@string/confirm_dropoff"
+                android:text="@string/confirm_pickup"
                 android:textSize="@dimen/_12ssp"
                 app:cornerRadius="@dimen/_10sdp" />
 

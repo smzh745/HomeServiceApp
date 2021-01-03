@@ -1,12 +1,10 @@
-@file:Suppress("DEPRECATION", "UNUSED_ANONYMOUS_PARAMETER")
+@file:Suppress("DEPRECATION")
 
 package home.service.appmanage.online.work.fragments
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentSender.SendIntentException
 import android.content.pm.PackageManager
@@ -20,12 +18,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
-import com.android.volley.DefaultRetryPolicy
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks
@@ -37,20 +34,16 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import home.service.appmanage.online.work.R
-import home.service.appmanage.online.work.models.TypeDetails
 import home.service.appmanage.online.work.utils.Constants
-import home.service.appmanage.online.work.utils.Constants.BOOK_WORKER_URL
 import home.service.appmanage.online.work.utils.Constants.TAGI
 import home.service.appmanage.online.work.utils.SharedPrefUtils
-import kotlinx.android.synthetic.main.fragment_book_worker.view.*
-import org.json.JSONObject
+import kotlinx.android.synthetic.main.fragment_confirm_pick_up_location.view.*
 import java.io.IOException
 import java.util.*
 
-@SuppressLint("SetTextI18n")
-class BookWorkerFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
+@Suppress("DEPRECATION")
+class ConfirmPickUpLocation : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
     OnConnectionFailedListener, LocationListener {
     private var mLocationMarkerText: TextView? = null
     private var mMap: GoogleMap? = null
@@ -58,15 +51,18 @@ class BookWorkerFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbac
     private var mCenterLatLong: LatLng? = null
     private var lat: String? = null
     private var longi: String? = null
-    private var serviceList: ArrayList<TypeDetails>? = null
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        (requireActivity() as AppCompatActivity).supportActionBar?.title =
+            requireArguments().getString("type")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        root = inflater.inflate(R.layout.fragment_book_worker, container, false)
-
+        root = inflater.inflate(R.layout.fragment_confirm_pick_up_location, container, false)
         return root
     }
 
@@ -93,90 +89,37 @@ class BookWorkerFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbac
         mapFragment?.getMapAsync(this)
 
         geocoder = Geocoder(requireActivity(), Locale.getDefault())
-
-        serviceList = requireArguments().getParcelableArrayList("typed")
-        val position = requireArguments().getInt("position")
-        root!!.serviceName.text = serviceList!![position].typeTitle
-        root!!.serviceRate.text =
-            serviceList!![position].currency + " " + serviceList!![position].fare
-        root!!.proceed.setOnClickListener {
-            bookWorker(
-                serviceList!![position].typeTitle,
-                serviceList!![position].type,
-                serviceList!![position].subId
+        root!!.proceed2.setOnClickListener {
+            val b = bundleOf(
+                "type" to requireArguments().getString("type"),
+                "droppiclocation" to "$lat,$longi",
+                "dropOfflocation" to requireArguments().getString("dropOfflocation")
             )
+            findNavController().navigate(R.id.bookRiderFragment, b)
         }
     }
-
-    private fun bookWorker(typeTitle: String, type: String, subId: Int) {
-        showDialog(getString(R.string.finding_worker))
-        val postRequest: StringRequest = object : StringRequest(
-            Method.POST, BOOK_WORKER_URL,
-            Response.Listener<String?> { response ->
-                // response
-                Log.d(TAGI, response.toString())
-                val jsonObjects = JSONObject(response.toString())
-
-                if (jsonObjects.getInt("status") == 1) {
-                    Log.d(TAGI, "ok status")
-                    showAlertDialog(jsonObjects.getString("data"))
-                } else if (jsonObjects.getInt("status") == 0) {
-                    showToast(jsonObjects.getString("data"))
-                    hideDialog()
-                }
-                hideDialog()
-            },
-            Response.ErrorListener { error -> // error
-                Log.d(TAGI, "error: " + error!!.message)
-                hideDialog()
-            }
-        ) {
-            override fun getParams(): Map<String, String> {
-                val params: MutableMap<String, String> =
-                    HashMap()
-                params["uid"] =
-                    SharedPrefUtils.getStringData(requireActivity(), "id").toString()
-                params["longi"] = longi.toString()
-                params["lati"] = lat.toString()
-                params["type"] = type
-                params["worktype"] = typeTitle
-                params["subId"] = subId.toString()
-                params["isOnline"] = "true"
-                params["name"] =
-                    SharedPrefUtils.getStringData(requireActivity(), "name").toString()
-                params["deviceToken"] =
-                    SharedPrefUtils.getStringData(requireActivity(), "deviceToken").toString()
-                return params
-            }
-        }
-        postRequest.retryPolicy = DefaultRetryPolicy(
-            30000,
-            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        )
-        queue!!.add(postRequest)
-    }
-
-    private fun showAlertDialog(s: String) {
-        val dialogClickListener =
-            DialogInterface.OnClickListener { dialog, which ->
-                when (which) {
-                    DialogInterface.BUTTON_POSITIVE -> {
-                        findNavController().navigate(R.id.homeFragment)
-                        dialog.dismiss()
-                    }
-                }
-            }
-
-        val builder = MaterialAlertDialogBuilder(requireActivity())
-        builder.setMessage(s).setPositiveButton(getString(R.string.ok), dialogClickListener)
-            .show()
-    }
-
 
     override fun onMapReady(googleMap: GoogleMap) {
         Log.d(TAGI, "OnMapReady")
         mMap = googleMap
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        mMap!!.isMyLocationEnabled = true
         mMap!!.setOnCameraChangeListener { cameraPosition: CameraPosition ->
             Log.d("Camera position change" + "", cameraPosition.toString() + "")
             mCenterLatLong = cameraPosition.target
@@ -251,7 +194,7 @@ class BookWorkerFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbac
             LocationServices.FusedLocationApi.removeLocationUpdates(
                 mGoogleApiClient, this
             )
-        } catch (e: java.lang.Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
@@ -425,5 +368,4 @@ class BookWorkerFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbac
             }
         }
     }
-
 }

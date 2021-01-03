@@ -71,12 +71,20 @@
         tools:layout="@layout/fragment_wallet" />
     <fragment
         android:id="@+id/bookDriverFragment"
-        android:name="home.service.appmanage.online.work.fragments.BookDriverFragment"
-        android:label="@string/book_ride"
+        android:name="home.service.appmanage.online.work.fragments.ConfirmDopOffFragment"
         tools:layout="@layout/fragment_book_driver" />
     <fragment
         android:id="@+id/vechicleCategoryFragment"
         android:name="home.service.appmanage.online.work.fragments.VechicleCategoryFragment"
         android:label="@string/veh_cat"
         tools:layout="@layout/fragment_vechicle_category" />
+    <fragment
+        android:id="@+id/confirmPickUpLocation"
+        android:name="home.service.appmanage.online.work.fragments.ConfirmPickUpLocation"
+        tools:layout="@layout/fragment_confirm_pick_up_location" />
+    <fragment
+        android:id="@+id/bookRiderFragment"
+        android:name="home.service.appmanage.online.work.fragments.BookRiderFragment"
+        android:label="@string/book_ride"
+        tools:layout="@layout/fragment_book_rider" />
 </navigation>

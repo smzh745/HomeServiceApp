@@ -157,5 +157,9 @@
     <string name="a_great_ride_with_reasonable_price">A great ride with reasonable price</string>
     <string name="go_">Go+</string>
     <string name="ride_big_with_comfortable_ride">Ride big with comfortable ride</string>
+    <string name="where_you_want_to_go">Where you want to go?</string>
+    <string name="confirm_dropoff">Confirm DropOff</string>
+    <string name="confirm_pickup">Confirm PickUp</string>
+    <string name="confirm_pickup_location">Confirm PickUp Location</string>
 
 </resources>
