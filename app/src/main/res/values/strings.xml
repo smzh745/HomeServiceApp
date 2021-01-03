@@ -148,5 +148,14 @@
     <string name="license_image">License Image</string>
     <string name="enter_license_number">Enter License Number</string>
     <string name="book_ride">Book Ride</string>
+    <string name="veh_cat">Ride Categories</string>
+    <string name="go_mini">Go Mini</string>
+    <string name="cost_you_less_and_save_your_time">Cost you less and save your time</string>
+    <string name="bike">Bike</string>
+    <string name="without_ac_but_ride_comfortably">Without AC but ride comfortably</string>
+    <string name="go">Go</string>
+    <string name="a_great_ride_with_reasonable_price">A great ride with reasonable price</string>
+    <string name="go_">Go+</string>
+    <string name="ride_big_with_comfortable_ride">Ride big with comfortable ride</string>
 
 </resources>

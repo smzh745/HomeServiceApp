@@ -74,4 +74,9 @@
         android:name="home.service.appmanage.online.work.fragments.BookDriverFragment"
         android:label="@string/book_ride"
         tools:layout="@layout/fragment_book_driver" />
+    <fragment
+        android:id="@+id/vechicleCategoryFragment"
+        android:name="home.service.appmanage.online.work.fragments.VechicleCategoryFragment"
+        android:label="@string/veh_cat"
+        tools:layout="@layout/fragment_vechicle_category" />
 </navigation>

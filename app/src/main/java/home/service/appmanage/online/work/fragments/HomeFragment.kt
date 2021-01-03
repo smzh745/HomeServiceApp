@@ -150,7 +150,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
                                     buildAlertMessageNoGps()
                                 } else {
                                     navigateFragmentbyType(
-                                        R.id.bookDriverFragment,
+                                        R.id.vechicleCategoryFragment,
                                         getString(R.string.book_ride)
                                     )
                                 }
