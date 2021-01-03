@@ -8,7 +8,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -26,7 +25,6 @@ import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import home.service.appmanage.online.work.R
-import home.service.appmanage.online.work.utils.Constants
 import home.service.appmanage.online.work.utils.Constants.CHANGE_PASS_DRIVER_URL
 import home.service.appmanage.online.work.utils.Constants.CHANGE_PASS_USER_URL
 import home.service.appmanage.online.work.utils.Constants.CHANGE_PASS_WORKER_URL

@@ -150,7 +150,7 @@ open class BaseActivity : AppCompatActivity() {
                             val response_data = JSONObject(response)
                             if (response_data.getString("status") == "1") {
                                 Log.d(
-                                    Constants.TAGI,
+                                    TAGI,
                                     "checkWorkerActive: " + response_data.getJSONObject("data")
                                         .getBoolean("isActivated")
                                 )
@@ -174,7 +174,7 @@ open class BaseActivity : AppCompatActivity() {
                     }
                 },
                 Response.ErrorListener { error: VolleyError ->
-                    Log.d(Constants.TAGI, "updateToken: " + error.message)
+                    Log.d(TAGI, "updateToken: " + error.message)
                     try {
                     } catch (e: Exception) {
                         e.printStackTrace()

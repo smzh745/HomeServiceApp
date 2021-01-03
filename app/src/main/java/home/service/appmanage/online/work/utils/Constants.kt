@@ -2,7 +2,7 @@ package home.service.appmanage.online.work.utils
 
 object Constants {
     const val TAGI = "ServiceApp"
-    const val ROOT_URL = "https://doormansolutions.com/"
+    private const val ROOT_URL = "https://doormansolutions.com/"
     const val UPLOAD_DIRECTORY = ROOT_URL + "uploads/"
     const val REGISTER_USER = ROOT_URL + "register_user.php"
     const val ADD_LOCATION_USER = ROOT_URL + "add_location_user.php"
@@ -34,8 +34,8 @@ object Constants {
     const val PICK_CAM2 = 302
     const val PICK_IMAGE3 = 401
     const val PICK_CAM3 = 402
-    const val WORKER_ADD_PAGE = "register_worker.php?apicall="
+    private const val WORKER_ADD_PAGE = "register_worker.php?apicall="
     const val WORKER_ADD_URL = ROOT_URL + WORKER_ADD_PAGE + "uploadpic"
-    const val DRIVER_ADD_PAGE = "register_driver.php?apicall="
+    private const val DRIVER_ADD_PAGE = "register_driver.php?apicall="
     const val DRIVER_ADD_URL = ROOT_URL + DRIVER_ADD_PAGE + "uploadpic"
 }
