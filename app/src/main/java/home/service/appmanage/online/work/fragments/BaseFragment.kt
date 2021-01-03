@@ -2,8 +2,11 @@ package home.service.appmanage.online.work.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.location.Geocoder
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -37,6 +40,25 @@ open class BaseFragment : Fragment() {
         queue = Volley.newRequestQueue(requireActivity())
 
 
+    }
+    fun buildAlertMessageNoGps() {
+        val builder =
+            MaterialAlertDialogBuilder(requireActivity())
+        builder.setMessage(getString(R.string.gps_seems_to_disable))
+            .setCancelable(false)
+            .setPositiveButton(
+                getString(R.string.yes)
+            ) { dialog: DialogInterface?, id: Int ->
+                startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+            }
+            .setNegativeButton(
+                getString(R.string.no)
+            ) { dialog: DialogInterface, id: Int ->
+                dialog.cancel()
+                findNavController().navigateUp()
+            }
+        val alert = builder.create()
+        alert.show()
     }
 
     override fun onResume() {

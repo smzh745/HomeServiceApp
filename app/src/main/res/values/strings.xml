@@ -147,5 +147,6 @@
     <string name="car_copy">Car Copy</string>
     <string name="license_image">License Image</string>
     <string name="enter_license_number">Enter License Number</string>
+    <string name="book_ride">Book Ride</string>
 
 </resources>

@@ -5,7 +5,6 @@ package home.service.appmanage.online.work.fragments
 import android.Manifest
 import android.app.Activity
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentSender.SendIntentException
 import android.content.pm.PackageManager
@@ -15,7 +14,6 @@ import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -41,7 +39,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import home.service.appmanage.online.work.R
 import home.service.appmanage.online.work.adapters.ServiceAdapter
 import home.service.appmanage.online.work.models.Service
@@ -145,6 +142,19 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
                                     getString(R.string.photography_event)
                                 )
                             }
+                            5 -> {
+                                val manager =
+                                    requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+                                if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                                    buildAlertMessageNoGps()
+                                } else {
+                                    navigateFragmentbyType(
+                                        R.id.bookDriverFragment,
+                                        getString(R.string.book_ride)
+                                    )
+                                }
+                            }
                         }
                     }
 
@@ -169,11 +179,11 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
             root!!.workerLayout.visibility = View.VISIBLE
             initMap()
         }
-     /*   else {
-            root!!.recyclerView.visibility = View.VISIBLE
-            homeMaintenanceList!!.clear()
-            initUserView()
-        }*/
+        /*   else {
+               root!!.recyclerView.visibility = View.VISIBLE
+               homeMaintenanceList!!.clear()
+               initUserView()
+           }*/
     }
 
     private fun initMap() {
@@ -279,6 +289,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
                 getString(R.string.photography_event)
             )
         )
+        homeMaintenanceList?.add(Service(R.drawable.taxi_driver, getString(R.string.book_ride)))
         /*      homeMaintenanceList!!.add(
                   Service(
                       R.drawable.motor_repair,
@@ -294,25 +305,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
         return homeMaintenanceList!!
     }
 
-    private fun buildAlertMessageNoGps() {
-        val builder =
-            MaterialAlertDialogBuilder(requireActivity())
-        builder.setMessage(getString(R.string.gps_seems_to_disable))
-            .setCancelable(false)
-            .setPositiveButton(
-                getString(R.string.yes)
-            ) { dialog: DialogInterface?, id: Int ->
-                startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-            }
-            .setNegativeButton(
-                getString(R.string.no)
-            ) { dialog: DialogInterface, id: Int ->
-                dialog.cancel()
-                requireActivity().finish()
-            }
-        val alert = builder.create()
-        alert.show()
-    }
+
 
     override fun onMapReady(googleMap: GoogleMap) {
         Log.d(TAGI, "OnMapReady")

@@ -174,25 +174,6 @@ class BookWorkerFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbac
             .show()
     }
 
-    private fun buildAlertMessageNoGps() {
-        val builder =
-            MaterialAlertDialogBuilder(requireActivity())
-        builder.setMessage(getString(R.string.gps_seems_to_disable))
-            .setCancelable(false)
-            .setPositiveButton(
-                getString(R.string.yes)
-            ) { dialog: DialogInterface?, id: Int ->
-                startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-            }
-            .setNegativeButton(
-                getString(R.string.no)
-            ) { dialog: DialogInterface, id: Int ->
-                dialog.cancel()
-                findNavController().navigateUp()
-            }
-        val alert = builder.create()
-        alert.show()
-    }
 
     override fun onMapReady(googleMap: GoogleMap) {
         Log.d(TAGI, "OnMapReady")

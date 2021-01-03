@@ -69,4 +69,9 @@
         android:name="home.service.appmanage.online.work.fragments.WalletFragment"
         android:label="@string/wallet"
         tools:layout="@layout/fragment_wallet" />
+    <fragment
+        android:id="@+id/bookDriverFragment"
+        android:name="home.service.appmanage.online.work.fragments.BookDriverFragment"
+        android:label="@string/book_ride"
+        tools:layout="@layout/fragment_book_driver" />
 </navigation>
