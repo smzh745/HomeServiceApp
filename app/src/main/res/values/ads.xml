@@ -11,4 +11,12 @@
     <string name="youtube_key">AIzaSyCsqZjWevMIk54mGMDzV882ua-LzH_n3ss</string>
     <string name="policy_link">https://doormansolutions.blogspot.com/</string>
 
+    <string name="bike_per_km">4</string>
+    <string name="start_bike">30</string>
+    <string name="go_mini_km">9</string>
+    <string name="start_go_mini">85</string>
+    <string name="go_plus_km">24.15</string>
+    <string name="go_plus_start">160</string>
+    <string name="go_per_km">11.25</string>
+    <string name="go_start">95</string>
 </resources>

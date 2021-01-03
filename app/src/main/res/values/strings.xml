@@ -161,5 +161,6 @@
     <string name="confirm_dropoff">Confirm DropOff</string>
     <string name="confirm_pickup">Confirm PickUp</string>
     <string name="confirm_pickup_location">Confirm PickUp Location</string>
+    <string name="confirm_ride">Confirm Ride</string>
 
 </resources>
