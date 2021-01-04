@@ -20,6 +20,7 @@ object Constants {
     const val WORKER_DETAILS_SUB_URL = ROOT_URL + "fetch_all_worker_sub_data.php"
     const val WORKER_DETAILS_FARE_URL = ROOT_URL + "fetch_work_fare.php"
     const val END_WORK_URL = ROOT_URL + "end_work.php"
+    const val END_DRIVER_URL = ROOT_URL + "end_ride.php"
     const val CHANGE_PASS_USER_URL = ROOT_URL + "changePasswordByApp.php"
     const val CHANGE_PASS_WORKER_URL = ROOT_URL + "changePassWorker.php"
     const val CHANGE_PASS_DRIVER_URL = ROOT_URL + "changePasswordDriver.php"

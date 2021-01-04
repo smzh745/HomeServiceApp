@@ -166,5 +166,6 @@
     <string name="confirm_ride">Confirm Ride</string>
     <string name="driver_name">Driver Name</string>
     <string name="driver_location">Driver Location</string>
+    <string name="ending_ride">Ending Ride..</string>
 
 </resources>

@@ -1,6 +1,7 @@
 package home.service.appmanage.online.work.activities
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
@@ -15,6 +16,7 @@ import com.android.volley.toolbox.StringRequest
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import home.service.appmanage.online.work.R
 import home.service.appmanage.online.work.utils.Constants.ACCEPT_DRIVER_URL
+import home.service.appmanage.online.work.utils.Constants.END_DRIVER_URL
 import home.service.appmanage.online.work.utils.Constants.TAGI
 import home.service.appmanage.online.work.utils.SharedPrefUtils
 import kotlinx.android.synthetic.main.activity_accept_driver_booking.*
@@ -28,6 +30,7 @@ class AcceptDriverBooking : BaseActivity() {
     var alertDialog2: AlertDialog? = null
     private var isStart: Boolean = false
     private var rideFare: String? = null
+    private var bookingId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +82,7 @@ class AcceptDriverBooking : BaseActivity() {
         }
         start.setOnClickListener {
             if (isStart) {
-//                endWork()
+                endRide()
             } else {
                 isStart = true
                 start.text = getString(R.string.end)
@@ -87,9 +90,75 @@ class AcceptDriverBooking : BaseActivity() {
         }
     }
 
+    private fun endRide() {
+        showDialog(getString(R.string.ending_ride))
+        val postRequest: StringRequest = object : StringRequest(
+            Method.POST, END_DRIVER_URL,
+            Response.Listener<String?> { response ->
+                // response
+                Log.d(TAGI, response.toString())
+                val jsonObjects = JSONObject(response.toString())
+
+                if (jsonObjects.getInt("status") == 1) {
+                    Log.d(TAGI, "ok status")
+                    showToast(jsonObjects.getString("data"))
+                    hideDialog()
+                    endWOrkDialog()
+                } else if (jsonObjects.getInt("status") == 0) {
+                    showToast(jsonObjects.getString("data"))
+                    hideDialog()
+                }
+//                hideDialog()
+            },
+            Response.ErrorListener { error -> // error
+                Log.d(TAGI, "error: " + error!!.message)
+                hideDialog()
+            }
+        ) {
+            override fun getParams(): Map<String, String> {
+                val params: MutableMap<String, String> =
+                    HashMap()
+                params["fare"] = rideFare.toString()
+                params["bid"] = bookingId.toString()
+                params["wid"] =
+                    SharedPrefUtils.getStringData(this@AcceptDriverBooking, "id").toString()
+
+                return params
+            }
+        }
+        postRequest.retryPolicy = DefaultRetryPolicy(
+            30000,
+            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+        queue!!.add(postRequest)
+    }
+
+    private fun endWOrkDialog() {
+        val dialogClickListener =
+            DialogInterface.OnClickListener { dialog, which ->
+                when (which) {
+                    DialogInterface.BUTTON_POSITIVE -> {
+                        dialog.dismiss()
+
+                        openActivity(MainActivity())
+                        finish()
+                    }
+
+                }
+            }
+
+        val builder =
+            AlertDialog.Builder(this@AcceptDriverBooking)
+        builder.setMessage("Work ended. Please collect " + rideFare + " from " + requestName.text.toString() + ".")
+            .setPositiveButton("OK", dialogClickListener).show()
+    }
+
+
     private fun showDriverAcceptDialog(values: String) {
         val itemsString = values.split(",")
         rideFare = itemsString[9]
+        bookingId = itemsString[8]
         Log.d(TAGI, "showDriverAcceptDialog: " + rideFare)
         val dialog = MaterialAlertDialogBuilder(
             this@AcceptDriverBooking
@@ -103,7 +172,7 @@ class AcceptDriverBooking : BaseActivity() {
         view1.requestName.text = itemsString[1]
         view1.textView.text = getString(R.string.request_for_ride)
         view1!!.textView3.visibility = View.GONE
-        view1!!.workDesp.visibility = View.GONE
+        view1.workDesp.visibility = View.GONE
         view1.textView4.text = "Ride PickUp Location"
         if (gpsTracker!!.canGetLocation()) {
             view1.workDistance.text =
