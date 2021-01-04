@@ -13,6 +13,7 @@ object Constants {
     const val LOGIN_DRIVER_URL = ROOT_URL + "driver_login.php"
     const val UPDATE_TOKEN_URL = ROOT_URL + "update_token_login_status_worker.php"
     const val BOOK_WORKER_URL = ROOT_URL + "set_worker_booking.php"
+    const val BOOK_DRIVER_URL = ROOT_URL + "book_driver.php"
     const val ACCEPT_WORKER_URL = ROOT_URL + "accept_worker_request.php"
     const val WORKER_DETAILS_URL = ROOT_URL + "fetch_all_workers_data.php"
     const val WORKER_DETAILS_SUB_URL = ROOT_URL + "fetch_all_worker_sub_data.php"

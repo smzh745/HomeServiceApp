@@ -1,6 +1,7 @@
 package home.service.appmanage.online.work.fragments
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.location.Location
 import android.os.Bundle
 import android.os.Handler
@@ -12,6 +13,9 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.Nullable
 import androidx.navigation.fragment.findNavController
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -20,10 +24,14 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import home.service.appmanage.online.work.R
+import home.service.appmanage.online.work.utils.Constants.BOOK_DRIVER_URL
 import home.service.appmanage.online.work.utils.Constants.TAGI
+import home.service.appmanage.online.work.utils.SharedPrefUtils
 import kotlinx.android.synthetic.main.fragment_book_rider.view.*
-import java.util.ArrayList
+import org.json.JSONObject
+import java.util.*
 
 
 @Suppress("LocalVariableName")
@@ -37,6 +45,7 @@ class BookRiderFragment : BaseFragment(), OnMapReadyCallback {
     private var descLoc: Location? = null
     private var points: ArrayList<LatLng>? = null
     private var kms: Float? = null
+    private var p: Int = 0
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -88,32 +97,99 @@ class BookRiderFragment : BaseFragment(), OnMapReadyCallback {
         options = PolylineOptions()
         points = ArrayList()
         root!!.confirmRide.setOnClickListener {
-
+            bookRide()
         }
         return root
+    }
+
+    private fun bookRide() {
+        showDialog(getString(R.string.finding_driver))
+        val postRequest: StringRequest = object : StringRequest(
+            Method.POST, BOOK_DRIVER_URL,
+            Response.Listener<String?> { response ->
+                // response
+                Log.d(TAGI, response.toString())
+                val jsonObjects = JSONObject(response.toString())
+
+                if (jsonObjects.getInt("status") == 1) {
+                    Log.d(TAGI, "ok status")
+                    showAlertDialog(jsonObjects.getString("data"))
+                } else if (jsonObjects.getInt("status") == 0) {
+                    showToast(jsonObjects.getString("data"))
+                    hideDialog()
+                }
+                hideDialog()
+            },
+            Response.ErrorListener { error -> // error
+                Log.d(TAGI, "error: " + error!!.message)
+                hideDialog()
+            }
+        ) {
+            override fun getParams(): Map<String, String> {
+                val params: MutableMap<String, String> =
+                    HashMap()
+                params["uid"] =
+                    SharedPrefUtils.getStringData(requireActivity(), "id").toString()
+                params["longi"] = sourceLoc!!.longitude.toString()
+                params["lati"] = sourceLoc!!.latitude.toString()
+                params["dlati"] = descLoc!!.latitude.toString()
+                params["dlongi"] = descLoc!!.longitude.toString()
+                params["type"] = rideType.toString()
+
+                params["isOnline"] = "true"
+                params["rideFare"] = p.toString()
+                params["name"] =
+                    SharedPrefUtils.getStringData(requireActivity(), "name").toString()
+                params["deviceToken"] =
+                    SharedPrefUtils.getStringData(requireActivity(), "deviceToken").toString()
+                return params
+            }
+        }
+        postRequest.retryPolicy = DefaultRetryPolicy(
+            30000,
+            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+        queue!!.add(postRequest)
+    }
+
+    private fun showAlertDialog(s: String) {
+        val dialogClickListener =
+            DialogInterface.OnClickListener { dialog, which ->
+                when (which) {
+                    DialogInterface.BUTTON_POSITIVE -> {
+                        findNavController().navigate(R.id.homeFragment)
+                        dialog.dismiss()
+                    }
+                }
+            }
+
+        val builder = MaterialAlertDialogBuilder(requireActivity())
+        builder.setMessage(s).setPositiveButton(getString(R.string.ok), dialogClickListener)
+            .show()
     }
 
     @SuppressLint("SetTextI18n")
     private fun setEstimatePrice() {
         when {
-            rideType.equals("bike", true) -> {
+            rideType.equals(getString(R.string.bike), true) -> {
                 val rateD = getString(R.string.bike_per_km).toFloat() * kms!!
-                val p = (getString(R.string.start_bike).toFloat() + rateD).toInt()
+                p = (getString(R.string.start_bike).toFloat() + rateD).toInt()
                 root!!.ratePrice.text = "PKR $p"
             }
-            rideType.equals("go mini", true) -> {
+            rideType.equals(getString(R.string.go_mini), true) -> {
                 val rateD = getString(R.string.go_mini_km).toFloat() * kms!!
-                val p = (getString(R.string.start_go_mini).toFloat() + rateD).toInt()
+                p = (getString(R.string.start_go_mini).toFloat() + rateD).toInt()
                 root!!.ratePrice.text = "PKR $p"
             }
-            rideType.equals("go+", true) -> {
+            rideType.equals(getString(R.string.go_), true) -> {
                 val rateD = getString(R.string.go_plus_km).toFloat() * kms!!
-                val p = (getString(R.string.go_plus_start).toFloat() + rateD).toInt()
+                p = (getString(R.string.go_plus_start).toFloat() + rateD).toInt()
                 root!!.ratePrice.text = "PKR $p"
             }
-            rideType.equals("go", true) -> {
+            rideType.equals(getString(R.string.go), true) -> {
                 val rateD = getString(R.string.go_per_km).toFloat() * kms!!
-                val p = (getString(R.string.go_start).toFloat() + rateD).toInt()
+                p = (getString(R.string.go_start).toFloat() + rateD).toInt()
                 root!!.ratePrice.text = "PKR $p"
             }
         }

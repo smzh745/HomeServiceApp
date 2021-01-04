@@ -51,9 +51,9 @@
     </string-array>
     <string-array name="driver_array">
         <item>Driver Type</item>
-        <item>Go+</item>
-        <item>Go Mini</item>
-        <item>Go</item>
+        <item>Luxury</item>
+        <item>Economy</item>
+        <item>Royal</item>
         <item>Bike</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
@@ -77,6 +77,7 @@
     <string name="set_up_location">Set up Location</string>
     <string name="working_area">Working Area</string>
     <string name="finding_worker">Finding you a nearby worker..</string>
+    <string name="finding_driver">Finding you a nearby driver..</string>
     <string name="request_for_work">Request for work</string>
     <string name="requester_name">Requester Name</string>
     <string name="work_despcription">Work Despcription</string>
@@ -149,13 +150,13 @@
     <string name="enter_license_number">Enter License Number</string>
     <string name="book_ride">Book Ride</string>
     <string name="veh_cat">Ride Categories</string>
-    <string name="go_mini">Go Mini</string>
+    <string name="go_mini">Economy</string>
     <string name="cost_you_less_and_save_your_time">Cost you less and save your time</string>
     <string name="bike">Bike</string>
     <string name="without_ac_but_ride_comfortably">Without AC but ride comfortably</string>
-    <string name="go">Go</string>
+    <string name="go">Royal</string>
     <string name="a_great_ride_with_reasonable_price">A great ride with reasonable price</string>
-    <string name="go_">Go+</string>
+    <string name="go_">Luxury</string>
     <string name="ride_big_with_comfortable_ride">Ride big with comfortable ride</string>
     <string name="where_you_want_to_go">Where you want to go?</string>
     <string name="confirm_dropoff">Confirm DropOff</string>
