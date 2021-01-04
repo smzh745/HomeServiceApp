@@ -15,6 +15,7 @@ object Constants {
     const val BOOK_WORKER_URL = ROOT_URL + "set_worker_booking.php"
     const val BOOK_DRIVER_URL = ROOT_URL + "book_driver.php"
     const val ACCEPT_WORKER_URL = ROOT_URL + "accept_worker_request.php"
+    const val ACCEPT_DRIVER_URL = ROOT_URL + "accept_driver_request.php"
     const val WORKER_DETAILS_URL = ROOT_URL + "fetch_all_workers_data.php"
     const val WORKER_DETAILS_SUB_URL = ROOT_URL + "fetch_all_worker_sub_data.php"
     const val WORKER_DETAILS_FARE_URL = ROOT_URL + "fetch_work_fare.php"

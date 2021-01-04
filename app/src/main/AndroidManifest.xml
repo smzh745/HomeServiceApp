@@ -35,6 +35,15 @@
         tools:ignore="UnusedAttribute"
         tools:targetApi="q">
         <activity
+            android:name=".activities.OnWayDriverActivity"
+            android:theme="@style/AppThemeTitle">
+            <intent-filter>
+                <action android:name="in.home.service.appmanage.online.work.REQUEST_ACCEPTED_DRIVER" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".activities.RegisterDriverActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -51,6 +60,15 @@
             android:theme="@style/AppThemeTitle">
             <intent-filter>
                 <action android:name="in.home.service.appmanage.online.work.REQUEST_WORKER" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.AcceptDriverBooking"
+            android:theme="@style/AppThemeTitle">
+            <intent-filter>
+                <action android:name="in.home.service.appmanage.online.work.REQUEST_DRIVER" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

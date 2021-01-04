@@ -79,6 +79,7 @@
     <string name="finding_worker">Finding you a nearby worker..</string>
     <string name="finding_driver">Finding you a nearby driver..</string>
     <string name="request_for_work">Request for work</string>
+    <string name="request_for_ride">Request for ride</string>
     <string name="requester_name">Requester Name</string>
     <string name="work_despcription">Work Despcription</string>
     <string name="work_location">Work Location</string>
@@ -163,5 +164,7 @@
     <string name="confirm_pickup">Confirm PickUp</string>
     <string name="confirm_pickup_location">Confirm PickUp Location</string>
     <string name="confirm_ride">Confirm Ride</string>
+    <string name="driver_name">Driver Name</string>
+    <string name="driver_location">Driver Location</string>
 
 </resources>

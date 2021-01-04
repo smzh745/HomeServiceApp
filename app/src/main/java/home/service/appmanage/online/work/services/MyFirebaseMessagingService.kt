@@ -52,22 +52,24 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         //  sendNotificationMsg(MessageTitle.toString(), MessageBody.toString())
         if (SharedPrefUtils.getBooleanData(applicationContext, "isLoggedIn")) {
             if (messageTitle.equals("Request_Worker", true)) {
-            /*    if (HelperUtils().isForeground(applicationContext, packageName)) {
-                    Log.d(TAGI, "onMessageReceived fore:  ")
-                    Handler(Looper.getMainLooper()).post {
-                        val intent = Intent(action)
-                        intent.putExtra("data", data)
-                        intent.putExtra("type", "worker")
-                        startActivity(intent)
-                    }
 
-                } else {*/
                     sendNotificationMsg(
                         messageBody.toString(),
                         rand(1, 100),
                         action,
                         data,
                         "worker"
+                    )
+
+//                }
+            }else if (messageTitle.equals("Driver_Worker", true)) {
+
+                    sendNotificationMsg(
+                        messageBody.toString(),
+                        rand(1, 100),
+                        action,
+                        data,
+                        "driver"
                     )
 
 //                }
@@ -79,6 +81,16 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     action,
                     data,
                     "worker_accept"
+                )
+
+            } else if (messageTitle.equals("booking_accept_driver", true)){
+                Log.d(TAGI, "onMessageReceived: accepted")
+                sendNotificationMsg(
+                    messageBody.toString(),
+                    rand(1, 100),
+                    action,
+                    data,
+                    "driver_accept"
                 )
 
             }else if (messageTitle.equals("account_status",true)){
