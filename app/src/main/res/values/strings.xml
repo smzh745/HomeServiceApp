@@ -167,5 +167,6 @@
     <string name="driver_name">Driver Name</string>
     <string name="driver_location">Driver Location</string>
     <string name="ending_ride">Ending Ride..</string>
+    <string name="note_ride"><b>Note: </b> To book a ride you need to drag the marker in order to book the ride.</string>
 
 </resources>

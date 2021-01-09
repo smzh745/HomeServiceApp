@@ -338,7 +338,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
                 getString(R.string.photography_event)
             )
         )
-        homeMaintenanceList?.add(Service(R.drawable.taxi_driver, getString(R.string.book_ride)))
+        homeMaintenanceList?.add(Service(R.drawable.taxi_driver1, getString(R.string.book_ride)))
         /*      homeMaintenanceList!!.add(
                   Service(
                       R.drawable.motor_repair,
