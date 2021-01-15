@@ -27,6 +27,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.iid.FirebaseInstanceId
 import home.service.appmanage.online.work.R
 import home.service.appmanage.online.work.utils.Constants
@@ -52,6 +53,10 @@ open class BaseActivity : AppCompatActivity() {
     private var dialog: AlertDialog? = null
     var geocoder: Geocoder? = null
     var gpsTracker: GPSTracker? = null
+    lateinit var auth: FirebaseAuth
+    var userName: String? = null
+    var userEmail: String? = null
+    var userProfile: String? = null
 
     //TODO: add back arrow to activity
     fun addBackArrow() {
@@ -87,6 +92,7 @@ open class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         gpsTracker = GPSTracker(this)
         queue = Volley.newRequestQueue(this)
+        auth = FirebaseAuth.getInstance()
 
         FirebaseInstanceId.getInstance().instanceId
             .addOnCompleteListener(OnCompleteListener { task ->

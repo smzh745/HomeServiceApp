@@ -7,10 +7,12 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import androidx.annotation.RequiresApi
 import com.android.volley.Response
 import com.android.volley.RetryPolicy
 import com.android.volley.VolleyError
@@ -40,12 +42,21 @@ class RegisterActivity : BaseActivity() {
     private var thumbnail: Bitmap? = null
     private var thumbnailProfle: Bitmap? = null
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         isUserLogin = intent.getBooleanExtra("isUserLogin", false)
         if (isUserLogin) {
             loginTitle.text = getString(R.string.signup_user)
+            userName = intent.getStringExtra("userName")
+            userEmail = intent.getStringExtra("userEmail")
+            name1.setText(userName)
+            email1.setText(userEmail)
+            email1.setFocusable(false)
+            name1.setFocusable(false)
+
+            password_text_input.visibility = View.GONE
         } else {
             loginTitle.text = getString(R.string.signup_worker)
             workerType.visibility = View.VISIBLE
@@ -56,7 +67,7 @@ class RegisterActivity : BaseActivity() {
             imageText.text = getString(R.string.cinic_image)
         }
         loginAccount.setOnClickListener {
-            openActivity(LoginActivity(), isUserLogin,false)
+            openActivity(LoginActivity(), isUserLogin, false)
         }
         register.setOnClickListener {
             if (isUserLogin) {
@@ -95,7 +106,8 @@ class RegisterActivity : BaseActivity() {
                             val obj = JSONObject(resultResponse)
                             Log.d(TAGI, "registerWorker: " + obj.getString("message"))
                             showToast(obj.getString("message"))
-                            openActivity(LoginActivity(),
+                            openActivity(
+                                LoginActivity(),
                                 isUserLogin = false,
                                 isDriverLogin = false
                             )
@@ -170,8 +182,7 @@ class RegisterActivity : BaseActivity() {
     }
 
     private fun registerUser() {
-        if (number.text.isNullOrEmpty() || password1.text.isNullOrEmpty() ||
-            email1.text.isNullOrEmpty() || name1.text.isNullOrEmpty()
+        if (number.text.isNullOrEmpty()
         ) {
             showToast(getString(R.string.please_fill_field))
         } else {
@@ -208,7 +219,7 @@ class RegisterActivity : BaseActivity() {
                     params["name"] = name1.text.toString()
                     params["phone"] = number.text.toString()
                     params["email"] = email1.text.toString()
-                    params["password"] = password1.text.toString()
+                    params["password"] = "123"
                     params["token"] =
                         SharedPrefUtils.getStringData(this@RegisterActivity, "deviceToken")
                             .toString()

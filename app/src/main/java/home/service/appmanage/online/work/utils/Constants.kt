@@ -2,6 +2,8 @@ package home.service.appmanage.online.work.utils
 
 object Constants {
     const val TAGI = "ServiceApp"
+    const val RC_SIGN_IN = 234
+
     private const val ROOT_URL = "https://doormansolutions.com/"
     const val UPLOAD_DIRECTORY = ROOT_URL + "uploads/"
     const val REGISTER_USER = ROOT_URL + "register_user.php"
