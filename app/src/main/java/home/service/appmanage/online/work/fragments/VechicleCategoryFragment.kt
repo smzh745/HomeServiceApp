@@ -20,25 +20,25 @@ class VechicleCategoryFragment : BaseFragment() {
 
         root!!.bikee.setOnClickListener {
             navigateFragmentbyType(
-                R.id.bookDriverFragment,
+                R.id.confirmPickUpLocation,
                 getString(R.string.bike)
             )
         }
         root!!.go1.setOnClickListener {
             navigateFragmentbyType(
-                R.id.bookDriverFragment,
+                R.id.confirmPickUpLocation,
                 getString(R.string.go)
             )
         }
         root!!.goMini.setOnClickListener {
             navigateFragmentbyType(
-                R.id.bookDriverFragment,
+                R.id.confirmPickUpLocation,
                 getString(R.string.go_mini)
             )
         }
         root!!.goPlus.setOnClickListener {
             navigateFragmentbyType(
-                R.id.bookDriverFragment,
+                R.id.confirmPickUpLocation,
                 getString(R.string.go_)
             )
         }

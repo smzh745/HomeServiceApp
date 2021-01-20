@@ -94,9 +94,10 @@ class ConfirmDopOffFragment : BaseFragment(), OnMapReadyCallback, ConnectionCall
         root!!.proceed.setOnClickListener {
             val b = bundleOf(
                 "type" to requireArguments().getString("type"),
-                "dropOfflocation" to "$lat,$longi"
+                "dropOfflocation" to "$lat,$longi",
+                "droppiclocation" to requireArguments().getString("droppiclocation")
             )
-            findNavController().navigate(R.id.confirmPickUpLocation, b)
+            findNavController().navigate(R.id.bookRiderFragment, b)
         }
     }
 
