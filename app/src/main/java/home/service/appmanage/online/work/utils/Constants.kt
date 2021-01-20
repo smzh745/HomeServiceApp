@@ -30,6 +30,7 @@ object Constants {
     const val FETCH_WORKER_FARE_URL = ROOT_URL + "fetch_worker_wallet.php"
     const val CHECK_WORKER_ACTIVE = ROOT_URL + "check_worker_activated.php"
     const val CHECK_DRIVER_ACTIVE = ROOT_URL + "check_driver_activated.php"
+    const val FETCH_USER_INFO_URL = ROOT_URL + "fetch_user_info.php"
     const val REQUEST_CHECK_SETTINGS_GPS = 0x1
     const val PICK_IMAGE = 101
     const val PICK_CAM = 102

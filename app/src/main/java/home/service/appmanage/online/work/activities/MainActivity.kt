@@ -142,6 +142,7 @@ class MainActivity : BaseActivity() {
                 )
             ) {
                 navigationView.menu.findItem(R.id.bookingFragment).isVisible = false
+                navigationView.menu.findItem(R.id.walletFragment2).isVisible = false
                 headerView!!.name.text = SharedPrefUtils.getStringData(this@MainActivity, "name")
                 headerView!!.email.text = SharedPrefUtils.getStringData(this@MainActivity, "email")
                 Glide.with(this)

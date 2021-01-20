@@ -17,6 +17,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import home.service.appmanage.online.work.R
 import home.service.appmanage.online.work.utils.Constants.ACCEPT_DRIVER_URL
 import home.service.appmanage.online.work.utils.Constants.END_DRIVER_URL
+import home.service.appmanage.online.work.utils.Constants.FETCH_USER_INFO_URL
 import home.service.appmanage.online.work.utils.Constants.TAGI
 import home.service.appmanage.online.work.utils.SharedPrefUtils
 import kotlinx.android.synthetic.main.activity_accept_driver_booking.*
@@ -159,7 +160,7 @@ class AcceptDriverBooking : BaseActivity() {
         val itemsString = values.split(",")
         rideFare = itemsString[9]
         bookingId = itemsString[8]
-        Log.d(TAGI, "showDriverAcceptDialog: " + rideFare)
+        Log.d(TAGI, "showDriverAcceptDialog: $rideFare")
         val dialog = MaterialAlertDialogBuilder(
             this@AcceptDriverBooking
         )
@@ -231,10 +232,12 @@ class AcceptDriverBooking : BaseActivity() {
 
                 if (jsonObjects.getInt("status") == 1) {
                     Log.d(TAGI, "ok status")
+                    SharedPrefUtils.saveData(this@AcceptDriverBooking, "isRideAccepted", true)
                     layout1.visibility = View.VISIBLE
                     SharedPrefUtils.saveData(this@AcceptDriverBooking, "isWorkAccepted", true)
                     showToast(jsonObjects.getString("data"))
                     alertDialog2!!.dismiss()
+                    fetchUserInfo(values)
                     hideDialog()
                 } else if (jsonObjects.getInt("status") == 0) {
                     showToast(jsonObjects.getString("data"))
@@ -261,6 +264,45 @@ class AcceptDriverBooking : BaseActivity() {
                 params["w_lat"] = gpsTracker!!.getLatitude().toString()
                 params["w_longi"] = gpsTracker!!.getLongitude().toString()
                 params["rideFare"] = rideFare.toString()
+                return params
+            }
+        }
+        postRequest.retryPolicy = DefaultRetryPolicy(
+            30000,
+            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+        queue!!.add(postRequest)
+    }
+
+    private fun fetchUserInfo(values: String) {
+        val itemsString = values.split(",")
+        showDialog(getString(R.string.loading))
+        val postRequest: StringRequest = object : StringRequest(
+            Method.POST, FETCH_USER_INFO_URL,
+            Response.Listener<String?> { response ->
+                // response
+                Log.d(TAGI, response.toString())
+                val jsonObjects = JSONObject(response.toString())
+
+                if (jsonObjects.getInt("status") == 1) {
+                    Log.d(TAGI, "ok status")
+                    Log.d(TAGI, "fetchUserInfo: " + jsonObjects.getString("data"))
+                    hideDialog()
+                } else if (jsonObjects.getInt("status") == 0) {
+                    hideDialog()
+                }
+//                hideDialog()
+            },
+            Response.ErrorListener { error -> // error
+                Log.d(TAGI, "error: " + error!!.message)
+                hideDialog()
+            }
+        ) {
+            override fun getParams(): Map<String, String> {
+                val params: MutableMap<String, String> =
+                    HashMap()
+                params["uid"] = itemsString[0]
                 return params
             }
         }
