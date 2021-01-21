@@ -13,7 +13,7 @@
         android:id="@+id/layout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,6 +53,27 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
                 android:textStyle="normal" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+
+                android:text="Requester Number"
+                android:textColor="@color/colorText"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/requestNum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="top"
+
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                android:textStyle="normal" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/textView3"
@@ -83,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="top"
-                android:text="@string/place_to_be_work"
+                android:text="Drop off location"
 
                 android:textColor="@color/colorText"
                 android:textSize="16sp"
@@ -128,6 +149,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="top"
                 android:text="@string/distance"
+                android:visibility="gone"
 
                 android:textColor="@color/colorText"
                 android:textSize="16sp"
@@ -139,7 +161,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="top"
-
+android:visibility="gone"
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
                 android:textStyle="normal" />

@@ -5,14 +5,25 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import home.service.appmanage.online.work.R
 import home.service.appmanage.online.work.utils.Constants.ACCEPT_DRIVER_URL
@@ -27,12 +38,16 @@ import java.io.IOException
 import java.util.*
 
 @SuppressLint("SetTextI18n")
-class AcceptDriverBooking : BaseActivity() {
+class AcceptDriverBooking : BaseActivity(), OnMapReadyCallback {
     var alertDialog2: AlertDialog? = null
     private var isStart: Boolean = false
     private var rideFare: String? = null
     private var bookingId: String? = null
-
+    private var options: PolylineOptions? = null
+    private lateinit var googleMap: GoogleMap
+    private var sourceLoc: Location? = null
+    private var descLoc: Location? = null
+    private var points: ArrayList<LatLng>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_accept_driver_booking)
@@ -42,6 +57,23 @@ class AcceptDriverBooking : BaseActivity() {
             showDriverAcceptDialog(intent.getStringExtra("data").toString())
             initView()
         }
+        val itemsString = intent.getStringExtra("data").toString().split(",")
+
+        sourceLoc = Location("")
+        sourceLoc!!.latitude = gpsTracker!!.getLatitude()
+        sourceLoc!!.longitude = gpsTracker!!.getLongitude()
+        descLoc = Location("")
+        descLoc!!.latitude = itemsString[2].toDouble()
+        descLoc!!.longitude = itemsString[3].toDouble()
+        Handler(Looper.getMainLooper()).postDelayed({
+
+            val mapFragment = supportFragmentManager
+                .findFragmentById(R.id.map) as SupportMapFragment?
+            mapFragment!!.getMapAsync(this)
+
+        }, 2000)
+        options = PolylineOptions()
+        points = ArrayList()
     }
 
     private fun initView() {
@@ -59,7 +91,7 @@ class AcceptDriverBooking : BaseActivity() {
                 ).toString() + " km"
         }
         workLoc.text = fetchLocationName(itemsString[4].toDouble(), itemsString[5].toDouble())
-        yourLoc.text = fetchLocationName(itemsString[2].toDouble(), itemsString[3].toDouble())
+        yourLoc.text = fetchLocationName(gpsTracker!!.getLatitude(), gpsTracker!!.getLongitude())
         if (gpsTracker!!.canGetLocation()) {
             workDistance.text =
                 roundOffDecimal(
@@ -237,8 +269,10 @@ class AcceptDriverBooking : BaseActivity() {
                     SharedPrefUtils.saveData(this@AcceptDriverBooking, "isWorkAccepted", true)
                     showToast(jsonObjects.getString("data"))
                     alertDialog2!!.dismiss()
-                    fetchUserInfo(values)
                     hideDialog()
+
+                    fetchUserInfo(values)
+
                 } else if (jsonObjects.getInt("status") == 0) {
                     showToast(jsonObjects.getString("data"))
                     hideDialog()
@@ -287,7 +321,10 @@ class AcceptDriverBooking : BaseActivity() {
 
                 if (jsonObjects.getInt("status") == 1) {
                     Log.d(TAGI, "ok status")
+                    val response_data = JSONObject(response!!)
                     Log.d(TAGI, "fetchUserInfo: " + jsonObjects.getString("data"))
+                    val phone = response_data.getJSONObject("data").getString("phone")
+                    requestNum.setText(phone)
                     hideDialog()
                 } else if (jsonObjects.getInt("status") == 0) {
                     hideDialog()
@@ -313,5 +350,55 @@ class AcceptDriverBooking : BaseActivity() {
         )
         queue!!.add(postRequest)
     }
+    override fun onMapReady(p0: GoogleMap?) {
+        googleMap = p0!!
+        p0.mapType = GoogleMap.MAP_TYPE_NORMAL
 
+        p0.addMarker(
+            MarkerOptions()
+                .position(
+                    LatLng(
+                        sourceLoc!!.latitude,
+                        sourceLoc!!.longitude
+                    )
+                )
+                .title("Your Location")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+        )
+        p0.addMarker(
+            MarkerOptions()
+                .position(
+                    LatLng(
+                        descLoc!!.latitude,
+                        descLoc!!.longitude
+                    )
+                )
+                .title("PickUp Location")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+        )
+        p0.moveCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                LatLng(
+                    sourceLoc!!.latitude,
+                    sourceLoc!!.longitude
+                ), 16.0f
+            )
+        )
+        val position = LatLng(
+            sourceLoc!!.latitude,
+            sourceLoc!!.longitude
+        )
+        val position1 = LatLng(
+            descLoc!!.latitude,
+            descLoc!!.longitude
+        )
+        points?.add(position)
+        points?.add(position1)
+        options?.addAll(points)
+        options!!.width(5F)
+        if (options != null) {
+            p0.addPolyline(options)
+        }
+//        hideDialog()
+    }
 }
