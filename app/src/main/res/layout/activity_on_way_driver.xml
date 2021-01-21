@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,6 +11,8 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/layout1"
+        android:overScrollMode="never"
+        android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -18,27 +21,64 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/textView2"
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_300sdp"
+                tools:ignore="UselessParent">
+
+                <fragment
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:ignore="FragmentTagUsage" />
+            </FrameLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="top"
+                android:layout_margin="@dimen/_5sdp">
 
-                android:text="@string/driver_name"
-                android:textColor="@color/colorText"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/profileImage"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_alignParentStart="true"
+                    android:contentDescription="@string/app_name"
+                    android:src="@mipmap/ic_launcher" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/requestName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="top"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:layout_toEndOf="@id/profileImage"
+                    android:orientation="vertical">
 
-                android:textColor="@color/colorAccent"
-                android:textSize="14sp"
-                android:textStyle="normal" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/textView2"
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
+
+                        android:text="@string/driver_name"
+                        android:textColor="@color/colorText"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/requestName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="top"
+
+                        android:textColor="@color/colorAccent"
+                        android:textSize="14sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
+            </RelativeLayout>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/textView3"
@@ -63,6 +103,69 @@
                 android:textSize="14sp"
                 android:textStyle="normal"
                 android:visibility="gone" />
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="top"
+                android:text="@string/driver_s_number"
+
+                android:textColor="@color/colorText"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/driverNum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="top"
+
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="top"
+                android:text="@string/car_number"
+
+                android:textColor="@color/colorText"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/carNUm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="top"
+
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="top"
+                android:text="@string/car_color"
+
+                android:textColor="@color/colorText"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/carColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="top"
+
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                android:textStyle="normal" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/textView4"
@@ -175,6 +278,7 @@
                     android:layout_centerInParent="true"
                     android:text="@string/view_on_map"
                     android:textSize="@dimen/_12ssp"
+                    android:visibility="gone"
                     app:cornerRadius="@dimen/_10sdp" />
             </RelativeLayout>
         </LinearLayout>

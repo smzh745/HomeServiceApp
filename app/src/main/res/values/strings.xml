@@ -170,5 +170,8 @@
     <string name="note_ride"><b>Note: </b> To book a ride you need to drag the marker in order to book the ride.</string>
     <string name="unable_to_sign_in">Login Failed! Please try again.</string>
     <string name="authentication_failed">Authentication Failed!</string>
+    <string name="driver_s_number">Driver\'s Number</string>
+    <string name="car_number">Car Number</string>
+    <string name="car_color">Car Color</string>
 
 </resources>

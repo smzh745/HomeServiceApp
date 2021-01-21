@@ -89,90 +89,94 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback, ConnectionCallbacks,
     ): View? {
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.fragment_home, container, false)
-        homeMaintenanceList = ArrayList()
-        homeapplianceList = ArrayList()
-        otherList = ArrayList()
+        try {
+            homeMaintenanceList = ArrayList()
+            homeapplianceList = ArrayList()
+            otherList = ArrayList()
 
 
-        root!!.recyclerView.addOnItemTouchListener(
-            RecyclerTouchListener(
-                requireActivity(),
-                root!!.recyclerView,
-                object : ClickListener {
-                    override fun onClick(view: View?, position: Int) {
-                        when (position) {
-                            /*   0 -> {
-                                   navigateFragmentbyType(
-                                       R.id.typeDetailsFragment,
-                                       getString(R.string.plumber)
-                                   )
-                               }*/
-                            0 -> {
-                                navigateFragmentbyType(
-                                    R.id.typeDetailsFragment,
-                                    getString(R.string.electrician)
-                                )
-                            }
-                            1 -> {
-                                navigateFragmentbyType(
-                                    R.id.subTypeFragment,
-                                    getString(R.string.ac_service)
-                                )
-                            }
-                            2 -> {
-                                navigateFragmentbyType(
-                                    R.id.typeDetailsFragment,
-                                    getString(R.string.carpenter)
-                                )
-                            }
-                            /*     4 -> {
-                                     navigateFragmentbyType(
-                                         R.id.typeDetailsFragment,
-                                         getString(R.string.painter)
-                                     )
-                                 }*/
-                            3 -> {
-                                navigateFragmentbyType(
-                                    R.id.typeDetailsFragment,
-                                    getString(R.string.barber)
-                                )
-                            }
-                            4 -> {
-                                navigateFragmentbyType(
-                                    R.id.subTypeFragment,
-                                    getString(R.string.photography_event)
-                                )
-                            }
-                            5 -> {
-                                val manager =
-                                    requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
-                                if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                                    buildAlertMessageNoGps()
-                                } else {
+            root!!.recyclerView.addOnItemTouchListener(
+                RecyclerTouchListener(
+                    requireActivity(),
+                    root!!.recyclerView,
+                    object : ClickListener {
+                        override fun onClick(view: View?, position: Int) {
+                            when (position) {
+                                /*   0 -> {
+                                       navigateFragmentbyType(
+                                           R.id.typeDetailsFragment,
+                                           getString(R.string.plumber)
+                                       )
+                                   }*/
+                                0 -> {
                                     navigateFragmentbyType(
-                                        R.id.vechicleCategoryFragment,
-                                        getString(R.string.book_ride)
+                                        R.id.typeDetailsFragment,
+                                        getString(R.string.electrician)
                                     )
+                                }
+                                1 -> {
+                                    navigateFragmentbyType(
+                                        R.id.subTypeFragment,
+                                        getString(R.string.ac_service)
+                                    )
+                                }
+                                2 -> {
+                                    navigateFragmentbyType(
+                                        R.id.typeDetailsFragment,
+                                        getString(R.string.carpenter)
+                                    )
+                                }
+                                /*     4 -> {
+                                         navigateFragmentbyType(
+                                             R.id.typeDetailsFragment,
+                                             getString(R.string.painter)
+                                         )
+                                     }*/
+                                3 -> {
+                                    navigateFragmentbyType(
+                                        R.id.typeDetailsFragment,
+                                        getString(R.string.barber)
+                                    )
+                                }
+                                4 -> {
+                                    navigateFragmentbyType(
+                                        R.id.subTypeFragment,
+                                        getString(R.string.photography_event)
+                                    )
+                                }
+                                5 -> {
+                                    val manager =
+                                        requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+                                    if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                                        buildAlertMessageNoGps()
+                                    } else {
+                                        navigateFragmentbyType(
+                                            R.id.vechicleCategoryFragment,
+                                            getString(R.string.book_ride)
+                                        )
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    override fun onLongClick(view: View?, position: Int) {
-                        Log.d(TAGI, "onLongClick")
+                        override fun onLongClick(view: View?, position: Int) {
+                            Log.d(TAGI, "onLongClick")
 
-                    }
-                })
-        )
-        if (!SharedPrefUtils.getBooleanData(
-                requireActivity(),
-                "isWorker"
-            ) || !SharedPrefUtils.getBooleanData(requireActivity(), "isDriver")
-        ) {
-            root!!.recyclerView.visibility = View.VISIBLE
-            homeMaintenanceList!!.clear()
-            initUserView()
+                        }
+                    })
+            )
+            if (!SharedPrefUtils.getBooleanData(
+                    requireActivity(),
+                    "isWorker"
+                ) || !SharedPrefUtils.getBooleanData(requireActivity(), "isDriver")
+            ) {
+                root!!.recyclerView.visibility = View.VISIBLE
+                homeMaintenanceList!!.clear()
+                initUserView()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
         return root
     }
